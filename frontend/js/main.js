@@ -301,16 +301,48 @@ const ArticlesManager = {
     this.applyFilters();
   },
 
+  searchTimeout: null,
   search(query) {
     this.currentSearch = query.toLowerCase().trim();
     this.currentPage = 1;
-    this.applyFilters();
+    
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+    
+    this.searchTimeout = setTimeout(() => {
+      this.applyFilters();
+    }, 600);
+
     const clearBtn = document.getElementById('search-clear');
     if (clearBtn) clearBtn.classList.toggle('visible', query.length > 0);
   },
 
-  applyFilters() {
-    this.filtered = this.all.filter(article => {
+  async applyFilters() {
+    let searchResults = [];
+    
+    if (this.currentSearch) {
+      const container = document.getElementById('articles-container');
+      if (container) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column: 1/-1; padding: 40px; text-align: center;">
+            <div style="font-size: 50px; margin-bottom: 20px; display: inline-block; animation: bounce 1s infinite alternate;">🔍📚</div>
+            <h3 style="font-size: 20px; color: var(--text-primary); margin-bottom: 8px;">Searching online...</h3>
+            <p style="color: var(--text-secondary); max-width: 400px; margin: 0 auto; font-size: 14px;">Hum is topic par material collect kar rahe hain. Kripya 2-3 seconds wait karein...</p>
+          </div>
+        `;
+      }
+      
+      const endpoint = `/articles?search=${encodeURIComponent(this.currentSearch)}`;
+      const data = await API.get(endpoint);
+      if (data) {
+        searchResults = data;
+      }
+    } else {
+      searchResults = this.all;
+    }
+
+    this.filtered = searchResults.filter(article => {
       const matchCat = this.currentCategory === 'all' || article.category === this.currentCategory;
       if (!this.currentSearch) return matchCat;
       const searchIn = [article.title, article.title_hi || '', article.excerpt, ...article.tags].join(' ').toLowerCase();
