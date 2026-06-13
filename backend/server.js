@@ -256,7 +256,108 @@ const publicOrigin = (req) => {
   return `${proto}://${host}`;
 };
 
-const getArticles = (query) => {
+const fetchWikiSummary = (queryStr) => {
+  return new Promise((resolve) => {
+    const cleanQuery = queryStr.trim().replace(/^(what is|who is|define|about|search for)\s+/i, '');
+    const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanQuery)}&format=json&utf8=1&origin=*`;
+    const headers = { 'User-Agent': 'BrightMind/1.0 (educational website project)' };
+    
+    https.get(searchUrl, { headers }, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          const results = json?.query?.search;
+          if (results && results.length > 0) {
+            const pageTitle = results[0].title;
+            const summaryUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageTitle)}`;
+            https.get(summaryUrl, { headers }, (res2) => {
+              let data2 = '';
+              res2.on('data', chunk => data2 += chunk);
+              res2.on('end', () => {
+                try {
+                  const summaryJson = JSON.parse(data2);
+                  resolve(summaryJson);
+                } catch (e) {
+                  resolve(null);
+                }
+              });
+            }).on('error', () => resolve(null));
+          } else {
+            resolve(null);
+          }
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }).on('error', () => resolve(null));
+  });
+};
+
+const createWikiArticle = (wikiData, queryStr) => {
+  const title = wikiData.title || queryStr;
+  const excerpt = wikiData.extract || `Comprehensive educational guide about ${title}.`;
+  
+  const content = `
+<h2>Introduction</h2>
+<p>${excerpt}</p>
+<h2>Detailed Explanation</h2>
+<p>${wikiData.description ? `<strong>${title}</strong> is generally defined as: <em>${wikiData.description}</em>.` : ''} Understanding the core principles of ${title} is essential for exams and general studies.</p>
+<h2>Key Takeaways</h2>
+<ul>
+  <li><strong>Topic Definition:</strong> Clear overview of ${title} and its fundamental concepts.</li>
+  <li><strong>Practical Significance:</strong> Why studying this subject matters in modern science, history, or general knowledge.</li>
+  <li><strong>Quick Revision:</strong> Re-read the definition and summary to prepare for tests.</li>
+</ul>
+<h2>Reference</h2>
+<p>For further reading, check out the full article on <a href="${wikiData.content_urls?.desktop?.page || 'https://wikipedia.org'}" target="_blank" rel="noopener">Wikipedia</a>.</p>
+  `;
+
+  const content_hi = `
+<h2>परिचय</h2>
+<p>${title} के बारे में एक विस्तृत शैक्षणिक गाइड।</p>
+<h2>महत्वपूर्ण बिंदु</h2>
+<ul>
+  <li><strong>परिभाषा:</strong> ${title} की बुनियादी समझ।</li>
+  <li><strong>महत्व:</strong> विज्ञान, इतिहास या सामान्य ज्ञान में इसका महत्व।</li>
+  <li><strong>रिवीजन नोट्स:</strong> परीक्षाओं की तैयारी के लिए मुख्य बिंदुओं को याद रखें।</li>
+</ul>
+  `;
+
+  const articles = readData('articles.json');
+  const existingSlugs = articles.map(a => a.slug);
+  const slug = generateSlug(title, existingSlugs);
+  const id = articles.reduce((max, art) => Math.max(max, art.id || 0), 0) + 1;
+  const author = "BrightMind Wiki Bot";
+  const emoji = "📖";
+  const readTime = 5;
+  const tags = title.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).slice(0, 6);
+
+  const newArt = {
+    id,
+    slug,
+    title: `${title} - Complete Study Guide`,
+    title_hi: `${title} - सम्पूर्ण गाइड`,
+    category: 'gk',
+    emoji,
+    excerpt,
+    author,
+    date: new Date().toISOString().slice(0, 10),
+    readTime,
+    featured: false,
+    tags,
+    content,
+    content_hi
+  };
+
+  articles.unshift(newArt);
+  writeData('articles.json', articles);
+  refreshCategoryCounts();
+  return newArt;
+};
+
+const getArticles = async (query) => {
   let articles = readData('articles.json');
   const category = query.get('category');
   const search = query.get('search');
@@ -268,13 +369,26 @@ const getArticles = (query) => {
   }
 
   if (search) {
-    const q = search.toLowerCase();
-    articles = articles.filter(article =>
+    const q = search.toLowerCase().trim();
+    let filtered = articles.filter(article =>
       article.title.toLowerCase().includes(q) ||
       (article.title_hi || '').toLowerCase().includes(q) ||
       article.excerpt.toLowerCase().includes(q) ||
       article.tags.join(' ').toLowerCase().includes(q)
     );
+
+    if (filtered.length === 0 && q.length > 2) {
+      try {
+        const wikiData = await fetchWikiSummary(q);
+        if (wikiData && wikiData.title) {
+          const newArt = createWikiArticle(wikiData, q);
+          filtered = [newArt];
+        }
+      } catch (e) {
+        console.error("Wikipedia fetch failed:", e);
+      }
+    }
+    articles = filtered;
   }
 
   const perPage = Number.isFinite(limit) && limit > 0 ? limit : articles.length;
@@ -306,7 +420,8 @@ const handleApi = async (req, res, url) => {
   }
 
   if (req.method === 'GET' && url.pathname === '/api/articles') {
-    return send(res, 200, getArticles(url.searchParams));
+    const articles = await getArticles(url.searchParams);
+    return send(res, 200, articles);
   }
 
   if (req.method === 'POST' && url.pathname === '/api/generate-article') {
