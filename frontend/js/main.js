@@ -338,16 +338,17 @@ const ArticlesManager = {
       if (data) {
         searchResults = data;
       }
+      // Backend has already filtered by search term, we only filter by category locally.
+      this.filtered = searchResults.filter(article => {
+        return this.currentCategory === 'all' || article.category === this.currentCategory;
+      });
     } else {
       searchResults = this.all;
+      this.filtered = searchResults.filter(article => {
+        const matchCat = this.currentCategory === 'all' || article.category === this.currentCategory;
+        return matchCat;
+      });
     }
-
-    this.filtered = searchResults.filter(article => {
-      const matchCat = this.currentCategory === 'all' || article.category === this.currentCategory;
-      if (!this.currentSearch) return matchCat;
-      const searchIn = [article.title, article.title_hi || '', article.excerpt, ...article.tags].join(' ').toLowerCase();
-      return matchCat && searchIn.includes(this.currentSearch);
-    });
     this.render();
   },
 
