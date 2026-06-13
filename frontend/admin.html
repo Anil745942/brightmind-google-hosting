@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - BrightMind</title>
+  <meta name="description" content="Admin tools for BrightMind article generation and backend seeding." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="admin">
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">🎓</div>
+          <span class="logo-text">BrightMind</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="articles.html">Articles</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="section">
+    <div class="container" style="max-width:900px;">
+      <div class="section-header">
+        <span class="section-label">Admin</span>
+        <h1 class="section-title">Article Generator</h1>
+        <p class="section-desc">Use these backend tools to seed and generate article content automatically.</p>
+      </div>
+
+      <div class="admin-grid" style="display:grid; grid-template-columns:1fr; gap:24px;">
+        <section class="card admin-card">
+          <h2>Generate a single article</h2>
+          <form id="article-generator-form" class="form-grid" style="gap:18px;">
+            <div class="form-group">
+              <label class="form-label" for="generate-title">Article Title (optional)</label>
+              <input class="form-input" id="generate-title" name="title" type="text" placeholder="Example: Solar System Basics" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="generate-category">Category</label>
+              <select class="form-select" id="generate-category" name="category">
+                <option value="school">School</option>
+                <option value="competitive">Competitive</option>
+                <option value="gk">General Knowledge</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Generate Article</button>
+          </form>
+        </section>
+
+        <section class="card admin-card">
+          <h2>Seed missing articles</h2>
+          <p>Automatically create new articles until the site has at least 20 articles.</p>
+          <form id="article-seed-form" class="form-grid" style="gap:18px; max-width:320px;">
+            <div class="form-group">
+              <label class="form-label" for="seed-count">Number of articles</label>
+              <input class="form-input" id="seed-count" name="count" type="number" min="1" max="20" value="10" />
+            </div>
+            <button class="btn btn-secondary" type="submit">Seed Articles</button>
+          </form>
+        </section>
+
+        <section class="card admin-card">
+          <h2>Import articles from remote JSON</h2>
+          <p>Fetch article data from an external JSON feed and add it to the site.</p>
+          <form id="article-import-form" class="form-grid" style="gap:18px; max-width:100%;">
+            <div class="form-group">
+              <label class="form-label" for="import-url">Remote JSON URL</label>
+              <input class="form-input" id="import-url" name="url" type="url" placeholder="https://example.com/articles.json" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Import Articles</button>
+          </form>
+        </section>
+
+        <section class="card admin-card">
+          <h2>Result</h2>
+          <div id="admin-status" class="admin-status">
+            <p>No actions taken yet. Use a generator, seed, or import form above.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom"><p>BrightMind Admin Tool - use only for development and content seeding.</p></div>
+    </div>
+  </footer>
+
+  <script src="js/content-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

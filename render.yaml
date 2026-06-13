@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: brightmind-google-hosting
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_EMAIL
+        sync: false
+        placeholder: "your-email@gmail.com"
+      - key: EMAILJS_SERVICE_ID
+        sync: false
+        placeholder: "service_xxxxxxx"
+      - key: EMAILJS_TEMPLATE_CONTACT
+        sync: false
+        placeholder: "template_xxxxxxx"
+      - key: EMAILJS_TEMPLATE_REPLY
+        sync: false
+        placeholder: "template_xxxxxxx"
+      - key: EMAILJS_PUBLIC_KEY
+        sync: false
+        placeholder: "your_public_key"
+      - key: EMAILJS_PRIVATE_KEY
+        sync: false
+        placeholder: "your_private_key"

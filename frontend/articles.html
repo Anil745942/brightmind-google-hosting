@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Articles | BrightMind - Educational Platform</title>
+  <meta name="description" content="Browse all educational articles on BrightMind. School subjects, competitive exam preparation, and general knowledge in English & Hindi." />
+  <meta name="keywords" content="educational articles, school, SSC, UPSC, GK, competitive exams, study material" />
+  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="articles.html" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="alternate" type="application/rss+xml" title="BrightMind Latest Articles" href="feed.xml" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <meta name="google-adsense-account" content="ca-pub-5564677867865390">
+
+  <!-- Google AdSense Auto Ads Code Placeholder -->
+  <!-- Replace 'ca-pub-5564677867865390' with your actual AdSense Publisher ID -->
+  <!-- 
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5564677867865390"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+<body data-page="articles">
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">🎓</div>
+          <span class="logo-text">BrightMind</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">🏠 Home</a></li>
+          <li><a href="articles.html">📚 Articles</a></li>
+          <li><a href="about.html">👥 About</a></li>
+          <li><a href="contact.html">✉️ Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="theme-toggle">🌙</button>
+        </div>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="articles.html">📚 Articles</a>
+    <a href="about.html">👥 About</a>
+    <a href="contact.html">✉️ Contact</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="section-label">All Content</span>
+      <h1 class="page-hero-title">📚 <span class="gradient-text">All Articles</span></h1>
+      <p class="page-hero-desc">Browse our complete collection of educational articles in English & Hindi</p>
+    </div>
+  </section>
+
+  <!-- ARTICLES SECTION -->
+  <section class="section">
+    <div class="container">
+
+      <!-- Search + Lang Toggle Row -->
+      <div style="display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap; margin-bottom:32px;">
+        <div class="search-wrapper" style="margin:0; flex:1; min-width:280px; max-width:500px;">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="search-input" placeholder="Search articles... (e.g. Newton, SSC, India)" />
+          <button class="search-clear" id="search-clear" title="Clear search">✕</button>
+        </div>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">🇬🇧 EN</button>
+          <button class="lang-btn" data-lang="hi">🇮🇳 HI</button>
+        </div>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="cat-tab active" data-cat="all">✨ All Topics</button>
+        <button class="cat-tab" data-cat="school">🎒 School (Class 6-12)</button>
+        <button class="cat-tab" data-cat="competitive">🏆 Competitive Exams</button>
+        <button class="cat-tab" data-cat="gk">🌍 General Knowledge</button>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="articles-grid" id="articles-container">
+        <!-- JS loaded -->
+        <div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--text-muted)">
+          ⏳ Loading articles...
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div id="pagination-container"></div>
+
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="newsletter-section">
+        <h2>📬 Never Miss an Update!</h2>
+        <p>Get new articles and study tips delivered to your inbox.</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Your email address..." required />
+          <button type="submit" class="newsletter-btn">Subscribe →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"><div class="logo-icon">🎓</div><span class="logo-text">BrightMind</span></a>
+          <p>Free educational content for school students and competitive exam aspirants. English & Hindi.</p>
+        </div>
+        <div><h4 class="footer-heading">Quick Links</h4><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="articles.html">Articles</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div><h4 class="footer-heading">Categories</h4><ul class="footer-links"><li><a href="articles.html">🎒 School</a></li><li><a href="articles.html">🏆 Competitive</a></li><li><a href="articles.html">🌍 General GK</a></li></ul></div>
+        <div><h4 class="footer-heading">Legal</h4><ul class="footer-links"><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="privacy-policy.html#terms">Terms</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 BrightMind. All rights reserved.</p>
+        <div class="social-links"><a href="#" class="social-link">📘</a><a href="#" class="social-link">🐦</a><a href="#" class="social-link">📸</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/content-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Test User",
+    "email": "test@example.com",
+    "subject": "Test Message",
+    "message": "This is a test message to verify email functionality works correctly.",
+    "date": "2026-06-10T17:10:29.837Z"
+  },
+  {
+    "id": 2,
+    "name": "Arun Kumar",
+    "email": "arun@example.com",
+    "subject": "Test Email Sending",
+    "message": "This is a test message to verify the email service integration is working correctly.",
+    "date": "2026-06-10T17:12:00.888Z"
+  },
+  {
+    "id": 3,
+    "name": "Arun Kumar",
+    "email": "arun@example.com",
+    "subject": "EmailJS Enabled Test",
+    "message": "Testing again after enabling server-side API access.",
+    "date": "2026-06-10T17:17:10.462Z"
+  },
+  {
+    "id": 4,
+    "name": "Arun Kumar",
+    "email": "arun@example.com",
+    "subject": "EmailJS Private Key Test",
+    "message": "Testing after private key update.",
+    "date": "2026-06-10T17:26:50.033Z"
+  },
+  {
+    "id": 5,
+    "name": "arpit",
+    "email": "anil6401kumar@gmaill.com",
+    "subject": "General question",
+    "message": "what is photosynthesis",
+    "date": "2026-06-10T17:50:51.322Z"
+  }
+]

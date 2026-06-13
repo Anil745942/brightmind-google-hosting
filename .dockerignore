@@ -1,0 +1,7 @@
+backend/node_modules
+frontend/.cache
+.git
+.agents
+.codex
+npm-debug.log
+*.log

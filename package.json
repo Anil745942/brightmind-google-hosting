@@ -1,0 +1,20 @@
+{
+  "name": "brightmind-google-hosting",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BrightMind frontend and backend ready for Google Cloud hosting.",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "server": "node backend/server.js",
+    "build": "echo 'Build Complete'"
+  },
+  "dependencies": {
+    "@emailjs/nodejs": "^4.1.0",
+    "dotenv": "^16.0.0"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

@@ -1,0 +1,5 @@
+# Replace the sample line below only after your AdSense account gives you a publisher ID.
+# Example format:
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0
+
+google.com, pub-5564677867865390, DIRECT, f08c47fec0942fa0

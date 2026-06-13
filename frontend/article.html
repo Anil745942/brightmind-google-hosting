@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article | BrightMind</title>
+  <meta name="description" content="Read educational articles on BrightMind. Covering school subjects, competitive exams and general knowledge in English and Hindi." />
+  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="article.html" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="alternate" type="application/rss+xml" title="BrightMind Latest Articles" href="feed.xml" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <meta name="google-adsense-account" content="ca-pub-5564677867865390">
+
+  <!-- Google AdSense Auto Ads Code Placeholder -->
+  <!-- Replace 'ca-pub-5564677867865390' with your actual AdSense Publisher ID -->
+  <!-- 
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5564677867865390"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+<body data-page="article">
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="reading-progress"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">🎓</div>
+          <span class="logo-text">BrightMind</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">🏠 Home</a></li>
+          <li><a href="articles.html">📚 Articles</a></li>
+          <li><a href="about.html">👥 About</a></li>
+          <li><a href="contact.html">✉️ Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="theme-toggle">🌙</button>
+        </div>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="articles.html">📚 Articles</a>
+    <a href="about.html">👥 About</a>
+    <a href="contact.html">✉️ Contact</a>
+  </div>
+
+  <!-- ARTICLE HEADER -->
+  <section class="article-header">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="index.html">🏠 Home</a>
+        <span>›</span>
+        <a href="articles.html">Articles</a>
+        <span>›</span>
+        <span id="breadcrumb-title">Loading...</span>
+      </div>
+
+      <!-- Category Badge -->
+      <div style="margin-bottom:16px;">
+        <span class="badge badge-indigo" id="article-category">Loading...</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="article-hero-title" id="article-title">Loading article...</h1>
+
+      <!-- Meta Row -->
+      <div class="article-meta-row">
+        <div class="meta-item">
+          <span id="article-emoji" style="font-size:20px">📖</span>
+        </div>
+        <div class="meta-item">
+          👤 <strong id="article-author">-</strong>
+        </div>
+        <div class="meta-item">
+          📅 <span id="article-date">-</span>
+        </div>
+        <div class="meta-item">
+          ⏱️ <span id="article-read-time">-</span>
+        </div>
+
+        <!-- Language Toggle -->
+        <div class="lang-toggle">
+          <button class="lang-btn active" id="lang-en" data-lang="en">🇬🇧 EN</button>
+          <button class="lang-btn" id="lang-hi" data-lang="hi">🇮🇳 HI</button>
+        </div>
+
+        <!-- Share Buttons -->
+        <div class="share-buttons">
+          <button class="share-btn" onclick="copyLink()" title="Copy link">🔗</button>
+          <a href="#" class="share-btn" id="share-wa" title="Share on WhatsApp" target="_blank">💬</a>
+          <a href="#" class="share-btn" id="share-tw" title="Share on Twitter" target="_blank">🐦</a>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="tags-list" id="article-tags"></div>
+    </div>
+  </section>
+
+  <!-- ARTICLE CONTENT -->
+  <div class="container">
+    <div class="article-layout">
+
+      <!-- Main Content -->
+      <main>
+        <!-- Top Banner Ad Slot -->
+        <div class="ad-placeholder ad-top">
+          <div class="ad-badge">ADVERTISEMENT</div>
+          <div class="ad-mock">
+            <span>Google AdSense placeholder</span>
+            <span class="ad-mock-id">In-Article Ad (Horizontal)</span>
+          </div>
+        </div>
+
+        <div class="article-content" id="article-content">
+          <p style="color:var(--text-muted); text-align:center; padding:40px;">⏳ Loading article content...</p>
+        </div>
+
+        <!-- Bottom Content Ad Slot -->
+        <div class="ad-placeholder">
+          <div class="ad-badge">ADVERTISEMENT</div>
+          <div class="ad-mock">
+            <span>Google AdSense placeholder</span>
+            <span class="ad-mock-id">Matched Content Ad Unit</span>
+          </div>
+        </div>
+
+        <!-- Article Footer -->
+        <div class="separator"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-top:24px;">
+          <a href="articles.html" class="btn btn-secondary">← Back to Articles</a>
+          <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="btn btn-primary">↑ Back to Top</button>
+        </div>
+      </main>
+
+      <!-- Sidebar -->
+      <aside class="article-sidebar">
+        <!-- Table of Contents -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">📋 Table of Contents</h3>
+          <ul class="toc-list" id="toc-list">
+            <li><a href="#">Loading...</a></li>
+          </ul>
+        </div>
+
+        <!-- Related Articles -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">📚 Related Articles</h3>
+          <div id="related-articles">
+            <p style="font-size:13px; color:var(--text-muted)">Loading related articles...</p>
+          </div>
+        </div>
+
+        <!-- Sidebar Ad Slot -->
+        <div class="ad-placeholder ad-sidebar">
+          <div class="ad-badge">ADVERTISEMENT</div>
+          <div class="ad-mock">
+            <span>Google AdSense placeholder</span>
+            <span class="ad-mock-id">Display Ad Unit (300x250)</span>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">🔗 Quick Links</h3>
+          <ul style="list-style:none;">
+            <li style="padding:6px 0; border-bottom:1px solid var(--border);"><a href="articles.html" style="font-size:13px; color:var(--text-secondary);">🎒 School Articles</a></li>
+            <li style="padding:6px 0; border-bottom:1px solid var(--border);"><a href="articles.html" style="font-size:13px; color:var(--text-secondary);">🏆 Competitive Prep</a></li>
+            <li style="padding:6px 0;"><a href="articles.html" style="font-size:13px; color:var(--text-secondary);">🌍 General Knowledge</a></li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="newsletter-section">
+        <h2>📬 Enjoyed this article?</h2>
+        <p>Subscribe to get more quality content delivered to your inbox!</p>
+        <form class="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Your email address..." required />
+          <button type="submit" class="newsletter-btn">Subscribe Free →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo"><div class="logo-icon">🎓</div><span class="logo-text">BrightMind</span></a>
+          <p>Free educational content for school students and competitive exam aspirants.</p>
+        </div>
+        <div><h4 class="footer-heading">Quick Links</h4><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="articles.html">Articles</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+        <div><h4 class="footer-heading">Categories</h4><ul class="footer-links"><li><a href="articles.html">🎒 School</a></li><li><a href="articles.html">🏆 Competitive</a></li><li><a href="articles.html">🌍 General GK</a></li></ul></div>
+        <div><h4 class="footer-heading">Legal</h4><ul class="footer-links"><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 BrightMind. All rights reserved.</p>
+        <div class="social-links"><a href="#" class="social-link">📘</a><a href="#" class="social-link">🐦</a><a href="#" class="social-link">📸</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/content-data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function copyLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast('✅ Link copied to clipboard!', 'success');
+      }).catch(() => {
+        showToast('❌ Could not copy link', 'error');
+      });
+    }
+
+    // Update share links after article loads
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const title = document.getElementById('article-title')?.textContent || 'BrightMind Article';
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(title);
+        const waLink = document.getElementById('share-wa');
+        const twLink = document.getElementById('share-tw');
+        if (waLink) waLink.href = `https://wa.me/?text=${text}%20${url}`;
+        if (twLink) twLink.href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

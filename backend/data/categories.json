@@ -1,0 +1,29 @@
+[
+  {
+    "id": "school",
+    "name": "School Education",
+    "name_hi": "स्कूल शिक्षा",
+    "emoji": "🎒",
+    "description": "Class 6-12 subjects including Science, Math, History, English",
+    "color": "#6366f1",
+    "count": 8
+  },
+  {
+    "id": "competitive",
+    "name": "Competitive Exams",
+    "name_hi": "प्रतियोगी परीक्षाएं",
+    "emoji": "🏆",
+    "description": "SSC, UPSC, Banking, Railway and other competitive exam prep",
+    "color": "#f59e0b",
+    "count": 7
+  },
+  {
+    "id": "gk",
+    "name": "General Knowledge",
+    "name_hi": "सामान्य ज्ञान",
+    "emoji": "🌍",
+    "description": "India, World, Science, Sports, History general knowledge",
+    "color": "#10b981",
+    "count": 5
+  }
+]

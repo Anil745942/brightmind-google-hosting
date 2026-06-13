@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrightMind - Learn Without Limits | Educational Platform</title>
+  <meta name="description" content="BrightMind is India's premier free educational platform. Study School subjects, Competitive Exam preparation (SSC, UPSC), and General Knowledge in English & Hindi." />
+  <meta name="keywords" content="education, school, competitive exams, SSC, UPSC, general knowledge, study, learn, hindi, english, free" />
+  <meta name="author" content="BrightMind Team" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="index.html" />
+  <meta property="og:title" content="BrightMind - Learn Without Limits" />
+  <meta property="og:description" content="Free educational content for School, Competitive Exams and General Knowledge in English & Hindi." />
+  <meta property="og:type" content="website" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="alternate" type="application/rss+xml" title="BrightMind Latest Articles" href="feed.xml" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+  <meta name="google-adsense-account" content="ca-pub-5564677867865390">
+
+  <!-- Google AdSense Auto Ads Code Placeholder -->
+  <!-- Replace 'ca-pub-5564677867865390' with your actual AdSense Publisher ID -->
+  <!-- 
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5564677867865390"
+     crossorigin="anonymous"></script>
+  -->
+
+  <!-- Structured Data / JSON-LD for WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "BrightMind",
+    "url": "http://localhost:3000",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "http://localhost:3000/articles.html?search={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  
+  <!-- Structured Data / JSON-LD for FAQs -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is BrightMind completely free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, BrightMind is 100% free forever. There are no hidden fees, paid subscriptions, or paywalls. All our educational articles, exam prep resources, and general knowledge guides are accessible to everyone without cost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are the articles available in Hindi?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, all articles on BrightMind are bilingual. You can switch between English (EN) and Hindi (HI) easily at the top of any article page using the language toggles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which competitive exams do you cover?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We provide prep materials for major competitive exams in India, including UPSC CSE, SSC CGL/CHSL/MTS, Banking (IBPS, SBI), Railways (RRB), and State PSC exams."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often is new content added to BrightMind?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We add new educational articles weekly. We regularly update current affairs, exam notification details, syllabus modifications, and create new guides based on student requests."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I request articles on specific topics?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely! If you want us to write an article on a school subject or competitive exam topic, you can send us a request through our Contact Us page. Our editorial team reviews all requests."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body data-page="home">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-icon">🎓</div>
+          <span class="logo-text">BrightMind</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">🏠 Home</a></li>
+          <li><a href="articles.html">📚 Articles</a></li>
+          <li><a href="about.html">👥 About</a></li>
+          <li><a href="contact.html">✉️ Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="theme-toggle" title="Toggle theme">🌙</button>
+          <a href="articles.html" class="btn btn-primary btn-sm">Start Learning →</a>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="articles.html">📚 Articles</a>
+    <a href="about.html">👥 About</a>
+    <a href="contact.html">✉️ Contact</a>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-two-col">
+        <div class="hero-content">
+          <div class="hero-badge">🇮🇳 India's Free Educational Platform</div>
+          <h1 class="hero-title">
+            Learn Smarter,<br>
+            <span class="gradient-text">Grow Faster</span>
+          </h1>
+          <p class="hero-desc">
+            Free educational content for <strong>School Students, Competitive Exam aspirants</strong> and <strong>General Knowledge</strong> seekers. Available in English & Hindi.
+          </p>
+          <!-- Hero Search Box -->
+          <form class="hero-search-form" id="hero-search-form" style="margin: 24px 0 16px; max-width: 500px;">
+            <div class="search-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" class="search-input" id="hero-search-input" placeholder="Search for subjects, SSC preparation, GK..." required />
+              <button type="submit" class="btn btn-primary" style="position: absolute; right: 4px; top: 4px; bottom: 4px; padding: 0 20px; border-radius: 50px; font-size: 13px;">Search</button>
+            </div>
+          </form>
+          <div class="hero-actions">
+            <a href="articles.html" class="btn btn-primary">📚 Browse Articles</a>
+            <a href="#categories" class="btn btn-secondary">Explore Topics →</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="stat-articles">18+</div>
+              <div class="stat-label">Quality Articles</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Subject Areas</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">2</div>
+              <div class="stat-label">Languages</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Free Forever</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual Cards -->
+        <div class="hero-visual">
+          <div class="hero-cards-stack">
+            <div class="floating-card">
+              <div class="card-emoji">🌿</div>
+              <div class="card-subject">Science · Class 9</div>
+              <div class="card-title">What is Photosynthesis?</div>
+              <div class="card-bar"><div class="card-bar-fill w-75"></div></div>
+              <div class="card-small-text">75% complete</div>
+            </div>
+            <div class="floating-card">
+              <div class="card-emoji">⚖️</div>
+              <div class="card-subject">Polity · UPSC</div>
+              <div class="card-title">Fundamental Rights</div>
+              <div class="card-bar"><div class="card-bar-fill w-60"></div></div>
+              <div class="card-small-text">60% complete</div>
+            </div>
+            <div class="floating-card">
+              <div class="card-emoji">🌍</div>
+              <div class="card-subject">GK · All Exams</div>
+              <div class="card-title">7 Wonders of World</div>
+              <div class="card-bar"><div class="card-bar-fill w-85"></div></div>
+              <div class="card-small-text">85% complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES SECTION ===== -->
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">What We Offer</span>
+        <h2 class="section-title">Choose Your <span class="gradient-text">Study Area</span></h2>
+        <p class="section-desc">Comprehensive content covering all major educational needs</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">🎒</div>
+          <div class="value-title">School Education</div>
+          <p class="value-desc">Complete study material for Class 6-12. Science, Mathematics, History, Geography, English — all subjects covered with easy explanations.</p>
+          <div style="margin-top:16px">
+            <span id="stat-school" class="badge badge-indigo">7 Articles</span>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🏆</div>
+          <div class="value-title">Competitive Exams</div>
+          <p class="value-desc">Prepare for SSC, UPSC, Banking, Railway, and State PSC exams. Strategy guides, important abbreviations, reasoning tricks and more.</p>
+          <div style="margin-top:16px">
+            <span id="stat-competitive" class="badge badge-amber">6 Articles</span>
+          </div>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🌍</div>
+          <div class="value-title">General Knowledge</div>
+          <p class="value-desc">Stay informed with essential GK — world capitals, important days, famous scientists, geography, and current affairs.</p>
+          <div style="margin-top:16px">
+            <span id="stat-gk" class="badge badge-emerald">5 Articles</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED ARTICLES ===== -->
+  <section class="section" id="featured" style="padding-top:0">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Latest Content</span>
+        <h2 class="section-title">Featured <span class="gradient-text">Articles</span></h2>
+        <p class="section-desc">Handpicked quality articles for your learning journey</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs">
+        <button class="cat-tab active" data-cat="all">✨ All Topics</button>
+        <button class="cat-tab" data-cat="school">🎒 School</button>
+        <button class="cat-tab" data-cat="competitive">🏆 Competitive</button>
+        <button class="cat-tab" data-cat="gk">🌍 General Knowledge</button>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="articles-grid" id="featured-articles">
+        <!-- Loaded by JS -->
+        <div class="article-card" style="animation-delay:0.05s">
+          <div class="card-image card-image-school"><span style="font-size:56px">📖</span></div>
+          <div class="card-body">
+            <div class="card-meta"><span class="card-category">🎒 School</span><span class="card-read-time">⏱️ Loading...</span></div>
+            <h3 class="card-title-text">Loading article...</h3>
+            <p class="card-excerpt">Please wait while we fetch the latest articles.</p>
+            <div class="card-footer"><div class="card-author"><div class="author-avatar">B</div><span>BrightMind</span></div><div class="card-arrow">→</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-40">
+        <a href="articles.html" class="btn btn-primary">View All Articles →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Home Content Ad Slot -->
+  <div class="container" style="margin-bottom: 40px;">
+    <div class="ad-placeholder">
+      <div class="ad-badge">ADVERTISEMENT</div>
+      <div class="ad-mock">
+        <span>Google AdSense placeholder</span>
+        <span class="ad-mock-id">Leaderboard Ad Unit (Horizontal)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WHY BRIGHTMIND ===== -->
+  <section class="section" style="background: var(--bg-secondary)">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Why Choose Us</span>
+        <h2 class="section-title">Why <span class="gradient-text">BrightMind?</span></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon">✅</div>
+          <div class="value-title">100% Free</div>
+          <p class="value-desc">All content is completely free. No subscription, no hidden fees. Quality education should be accessible to everyone.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🇮🇳</div>
+          <div class="value-title">Bilingual Content</div>
+          <p class="value-desc">Articles available in both English and Hindi. Learn in the language you're most comfortable with.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">📱</div>
+          <div class="value-title">Mobile Friendly</div>
+          <p class="value-desc">Fully responsive design. Study on your mobile, tablet or laptop — anytime, anywhere.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🎯</div>
+          <div class="value-title">Exam Focused</div>
+          <p class="value-desc">Content specially designed for school boards and competitive exams like SSC, UPSC, Banking, Railway.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">⚡</div>
+          <div class="value-title">Fast & Simple</div>
+          <p class="value-desc">Clean, distraction-free reading experience. Focus on learning, not on navigating a complex interface.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon">🔄</div>
+          <div class="value-title">Always Updated</div>
+          <p class="value-desc">Regular new articles added. Current affairs and latest exam updates covered regularly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ACCORDION SECTION ===== -->
+  <section class="section" id="faq" style="background: var(--bg-secondary)">
+    <div class="container-narrow">
+      <div class="section-header">
+        <span class="section-label">FAQ</span>
+        <h2 class="section-title">Frequently Asked <span class="gradient-text">Questions</span></h2>
+        <p class="section-desc">Quick answers to common questions about BrightMind</p>
+      </div>
+      
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is BrightMind completely free to use?</span>
+            <span class="faq-icon">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, BrightMind is 100% free forever. There are no hidden fees, paid subscriptions, or paywalls. All our educational articles, exam prep resources, and general knowledge guides are accessible to everyone without cost.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Are the articles available in Hindi?</span>
+            <span class="faq-icon">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes, all articles on BrightMind are bilingual. You can switch between English (EN) and Hindi (HI) easily at the top of any article page using the language toggles.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Which competitive exams do you cover?</span>
+            <span class="faq-icon">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>We cover major competitive exams in India including UPSC CSE, SSC CGL/CHSL/MTS, Banking (IBPS, SBI), Railways (RRB), and State PSC exams with articles on polity, history, and reasoning shortcuts.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How often is new content added to BrightMind?</span>
+            <span class="faq-icon">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>We add new educational articles weekly. We regularly update current affairs, exam syllabus changes, and create new guides based on requests from students.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Can I request articles on specific topics?</span>
+            <span class="faq-icon">＋</span>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely! If you want us to write an article on a school subject or competitive exam topic, you can send us a request through our <a href="contact.html">Contact Us</a> page. Our editorial team reviews all requests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="newsletter-section">
+        <h2>📬 Stay Updated!</h2>
+        <p>Subscribe to get new articles and study tips directly in your inbox. Join thousands of students!</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <input type="email" class="newsletter-input" placeholder="Enter your email address..." required />
+          <button type="submit" class="newsletter-btn">Subscribe Free →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo">
+            <div class="logo-icon">🎓</div>
+            <span class="logo-text">BrightMind</span>
+          </a>
+          <p>India's free educational platform for school students and competitive exam aspirants. Learn in English & Hindi — completely free.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="articles.html">All Articles</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Categories</h4>
+          <ul class="footer-links">
+            <li><a href="articles.html?cat=school">🎒 School</a></li>
+            <li><a href="articles.html?cat=competitive">🏆 Competitive</a></li>
+            <li><a href="articles.html?cat=gk">🌍 General Knowledge</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Legal</h4>
+          <ul class="footer-links">
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="privacy-policy.html#terms">Terms of Service</a></li>
+            <li><a href="privacy-policy.html#disclaimer">Disclaimer</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2024 BrightMind. All rights reserved. Made with ❤️ for Indian students.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Facebook">📘</a>
+          <a href="#" class="social-link" title="Twitter/X">🐦</a>
+          <a href="#" class="social-link" title="Instagram">📸</a>
+          <a href="#" class="social-link" title="YouTube">▶️</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/content-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
