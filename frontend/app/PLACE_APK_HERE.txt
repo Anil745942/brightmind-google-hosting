@@ -1,0 +1,9 @@
+📋 Place your generated android APK here!
+
+How to set up:
+1. Generate your app's APK using WebIntoApp or Capacitor.
+2. Rename the generated .apk file to "brightmind.apk".
+3. Move/Paste it into this folder: "frontend/app/".
+4. Commit and push it to GitHub/Render.
+
+Once deployed, users can click the "Download Android App" buttons on the website to download this APK file directly!
