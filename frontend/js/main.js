@@ -866,11 +866,42 @@ function showToast(message, type = 'success') {
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500);
 }
 
+// ===== FLOATING APP BANNER =====
+const FloatingAppBanner = {
+  init() {
+    // Don't show if dismissed or on admin page
+    if (localStorage.getItem('bm-app-banner-dismissed') === 'true' || document.body.dataset.page === 'admin') return;
+
+    const banner = document.createElement('div');
+    banner.className = 'floating-app-banner';
+    banner.innerHTML = `
+      <button class="app-banner-close" aria-label="Dismiss">&times;</button>
+      <div class="app-banner-logo">📱</div>
+      <div class="app-banner-info">
+        <h4>BrightMind App is Live!</h4>
+        <p>Learn offline with our free Android app.</p>
+      </div>
+      <a href="app/brightmind.apk" class="app-banner-download" download>Install APK</a>
+    `;
+
+    document.body.appendChild(banner);
+
+    // Dismiss handling
+    banner.querySelector('.app-banner-close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      banner.classList.add('hide');
+      localStorage.setItem('bm-app-banner-dismissed', 'true');
+      setTimeout(() => banner.remove(), 400);
+    });
+  }
+};
+
 // ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded', () => {
   ThemeManager.init();
   NavManager.init();
   CookieConsent.init();
+  FloatingAppBanner.init();
 
   document.getElementById('theme-toggle')?.addEventListener('click', () => ThemeManager.toggle());
 

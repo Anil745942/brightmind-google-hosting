@@ -654,3 +654,134 @@ img { max-width: 100%; height: auto; }
   padding-top: 0;
 }
 
+/* ===== FLOATING APP BANNER ===== */
+.floating-app-banner {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 360px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+  backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(124, 58, 237, 0.4);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2), 0 0 15px rgba(124, 58, 237, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px 20px 20px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transform: translateY(150%);
+  opacity: 0;
+  animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, pulseGlow 3s infinite alternate;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+[data-theme="light"] .floating-app-banner {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(243, 244, 246, 0.98));
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+.floating-app-banner.hide {
+  transform: translateY(150%);
+  opacity: 0;
+}
+
+.app-banner-logo {
+  font-size: 32px;
+  animation: bounceSlow 2s infinite;
+}
+
+.app-banner-info {
+  flex-grow: 1;
+}
+
+.app-banner-info h4 {
+  margin: 0 0 4px;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.app-banner-info p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.app-banner-download {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 50px;
+  background: var(--gradient-primary);
+  color: white !important;
+  border: none;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  transition: var(--transition);
+}
+
+.app-banner-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.5);
+  opacity: 0.95;
+}
+
+.app-banner-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.app-banner-close:hover {
+  color: var(--text-primary);
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes slideInUp {
+  0% {
+    transform: translateY(150%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 0 15px rgba(124, 58, 237, 0.15); }
+  100% { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 0 25px rgba(124, 58, 237, 0.35); }
+}
+
+/* Mobile responsive app banner */
+@media (max-width: 480px) {
+  .floating-app-banner {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
+    padding: 16px 20px;
+    animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+  }
+}
+
