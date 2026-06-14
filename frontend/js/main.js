@@ -678,12 +678,54 @@ const ContactManager = {
       const origText = btn.textContent;
       btn.textContent = '⏳ Sending...';
       btn.disabled = true;
-      const data = { name: form.name.value, email: form.email.value, subject: form.subject?.value || '', message: form.message.value };
-      const result = await API.post('/contact', data);
-      if (result && result.success) {
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        subject: form.subject?.value || '',
+        message: form.message.value
+      };
+
+      let emailSent = false;
+
+      // 1️⃣ Try frontend EmailJS first (works without backend)
+      if (typeof EmailJSService !== 'undefined' && EmailJSService.isReady()) {
+        try {
+          const emailResult = await EmailJSService.handleContact(data);
+          emailSent = emailResult.success;
+          if (emailSent) {
+            console.log('✅ Emails sent via frontend EmailJS');
+            console.log('   Admin notification:', emailResult.admin.success ? '✅' : '❌');
+            console.log('   Auto-reply to user:', emailResult.reply.success ? '✅' : '❌');
+          }
+        } catch (err) {
+          console.warn('⚠️ Frontend EmailJS failed:', err);
+        }
+      }
+
+      // 2️⃣ Also save to backend (if available)
+      let backendSaved = false;
+      try {
+        const result = await API.post('/contact', data);
+        backendSaved = result && result.success;
+      } catch (err) {
+        console.warn('⚠️ Backend save failed (might be offline):', err);
+      }
+
+      // 3️⃣ Show result
+      if (emailSent || backendSaved) {
         form.style.display = 'none';
         const msg = document.getElementById('success-msg');
-        if (msg) msg.style.display = 'block';
+        if (msg) {
+          msg.style.display = 'block';
+          // Update success message if auto-reply was sent
+          if (emailSent) {
+            const msgText = msg.querySelector('p');
+            if (msgText) {
+              msgText.textContent = `Thanks ${data.name.split(' ')[0]}! Your message has been received. A confirmation email has been sent to ${data.email} 📧`;
+            }
+          }
+        }
       } else {
         showToast('❌ Kuch galat hua. Dobara try karein.', 'error');
         btn.textContent = origText;

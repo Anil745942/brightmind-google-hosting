@@ -1,0 +1,51 @@
+<div style="font-family:'Segoe UI',Arial,sans-serif; max-width:600px; margin:0 auto; background:#ffffff;">
+
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e); padding:25px 30px; border-radius:12px 12px 0 0; text-align:center;">
+    <h1 style="color:#ffffff; margin:0; font-size:22px;">🔔 New Contact Message</h1>
+    <p style="color:#a0a0cc; margin:5px 0 0; font-size:13px;">BrightMind Contact Form Submission</p>
+  </div>
+
+  <!-- Body -->
+  <div style="padding:25px 30px; border:1px solid #e8e8e8; border-top:none;">
+
+    <!-- User Details -->
+    <h3 style="color:#333; margin:0 0 15px; font-size:16px;">👤 Sender Details</h3>
+    <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+      <tr>
+        <td style="padding:10px 12px; background:#f8f9fa; font-weight:bold; color:#555; width:120px; border:1px solid #eee;">Name</td>
+        <td style="padding:10px 12px; background:#ffffff; color:#222; border:1px solid #eee;">{{from_name}}</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px; background:#f8f9fa; font-weight:bold; color:#555; border:1px solid #eee;">Email</td>
+        <td style="padding:10px 12px; background:#ffffff; color:#222; border:1px solid #eee;">{{from_email}}</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px; background:#f8f9fa; font-weight:bold; color:#555; border:1px solid #eee;">Subject</td>
+        <td style="padding:10px 12px; background:#ffffff; color:#222; border:1px solid #eee;">{{subject}}</td>
+      </tr>
+      <tr>
+        <td style="padding:10px 12px; background:#f8f9fa; font-weight:bold; color:#555; border:1px solid #eee;">Date</td>
+        <td style="padding:10px 12px; background:#ffffff; color:#222; border:1px solid #eee;">{{contact_date}}</td>
+      </tr>
+    </table>
+
+    <!-- Message -->
+    <h3 style="color:#333; margin:0 0 10px; font-size:16px;">💬 Message</h3>
+    <div style="background:#f0f4ff; padding:18px; border-radius:8px; border-left:4px solid #667eea; color:#333; line-height:1.6;">
+      {{message}}
+    </div>
+
+    <!-- Quick Action -->
+    <div style="margin-top:20px; text-align:center;">
+      <a href="mailto:{{from_email}}?subject=Re: {{subject}}" style="background:linear-gradient(135deg,#667eea,#764ba2); color:#ffffff; padding:12px 28px; border-radius:8px; text-decoration:none; display:inline-block; font-weight:bold; font-size:14px;">↩️ Reply to {{from_name}}</a>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div style="background:#f8f8f8; padding:15px; text-align:center; border-radius:0 0 12px 12px; border:1px solid #e8e8e8; border-top:none;">
+    <p style="color:#999; font-size:11px; margin:0;">🎓 BrightMind Contact System | This is an automated notification</p>
+  </div>
+
+</div>
