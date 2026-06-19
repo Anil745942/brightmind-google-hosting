@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@emailjs/nodejs": "^4.1.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "helmet": "^8.2.0"
   },
   "engines": {
     "node": "20.x"
