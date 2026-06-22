@@ -1,7 +1,7 @@
 {
-  "name": "brightmind-backend",
+  "name": "gyanology-backend",
   "version": "1.0.0",
-  "description": "BrightMind Educational Website Backend",
+  "description": "Gyanology Educational Website Backend",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

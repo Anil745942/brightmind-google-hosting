@@ -260,7 +260,7 @@ const fetchWikiSummary = (queryStr) => {
   return new Promise((resolve) => {
     const cleanQuery = queryStr.trim().replace(/^(what is|who is|define|about|search for)\s+/i, '');
     const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(cleanQuery)}&format=json&utf8=1&origin=*`;
-    const headers = { 'User-Agent': 'BrightMind/1.0 (educational website project)' };
+    const headers = { 'User-Agent': 'Gyanology/1.0 (educational website project)' };
     
     https.get(searchUrl, { headers }, (res) => {
       let data = '';
@@ -329,7 +329,7 @@ const createWikiArticle = (wikiData, queryStr) => {
   const existingSlugs = articles.map(a => a.slug);
   const slug = generateSlug(title, existingSlugs);
   const id = articles.reduce((max, art) => Math.max(max, art.id || 0), 0) + 1;
-  const author = "BrightMind Wiki Bot";
+  const author = "Gyanology Wiki Bot";
   const emoji = "📖";
   const readTime = 5;
   const tags = title.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean).slice(0, 6);
@@ -400,7 +400,7 @@ const handleApi = async (req, res, url) => {
   if (req.method === 'OPTIONS') return send(res, 204, '');
 
   if (req.method === 'GET' && url.pathname === '/api/health') {
-    return send(res, 200, { ok: true, service: 'BrightMind', timestamp: new Date().toISOString() });
+    return send(res, 200, { ok: true, service: 'Gyanology', timestamp: new Date().toISOString() });
   }
 
   if (req.method === 'GET' && url.pathname === '/api/categories') {
@@ -589,7 +589,7 @@ const handleFeed = (req, res) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>BrightMind Latest Articles</title>
+    <title>Gyanology Latest Articles</title>
     <link>${origin}/</link>
     <description>Free educational articles for school, competitive exams, and general knowledge.</description>
     <language>en-IN</language>
@@ -654,7 +654,7 @@ ensureArticleSeed();
 
 const startServer = (port) => {
   server.listen(port, () => {
-    console.log('BrightMind server running');
+    console.log('Gyanology server running');
     console.log(`PORT=${port}`);
     console.log(`Website: http://localhost:${port}`);
     console.log(`API: http://localhost:${port}/api`);

@@ -1,4 +1,4 @@
-/* ===== BRIGHTMIND - MAIN JAVASCRIPT ===== */
+/* ===== GYANOLOGY - MAIN JAVASCRIPT ===== */
 
 const LOCAL_API_CANDIDATES = ['http://localhost:8080/api', 'http://localhost:3000/api'];
 
@@ -12,7 +12,7 @@ const resolveApiBases = () => {
 
 const LocalContentStore = {
   get data() {
-    return window.BRIGHTMIND_DATA || { articles: [], categories: [] };
+    return window.GYANOLOGY_DATA || { articles: [], categories: [] };
   },
 
   getArticles(params = new URLSearchParams()) {
@@ -53,7 +53,7 @@ const LocalContentStore = {
   },
 
   get(endpoint) {
-    const url = new URL(endpoint, 'https://brightmind.local');
+    const url = new URL(endpoint, 'https://gyanology.local');
     if (url.pathname === '/stats') return this.getStats();
     if (url.pathname === '/categories') return this.data.categories;
     if (url.pathname === '/articles') return this.getArticles(url.searchParams);
@@ -165,16 +165,16 @@ const SEOManager = {
   },
 
   updateArticle(article, title) {
-    const description = article.excerpt || `Read ${title} on BrightMind.`;
+    const description = article.excerpt || `Read ${title} on Gyanology.`;
     const canonicalUrl = window.location.href;
     SEOManager.updateArticle(a, title);
     this.setMeta('description', description);
-    this.setMeta('og:title', `${title} | BrightMind`, 'property');
+    this.setMeta('og:title', `${title} | Gyanology`, 'property');
     this.setMeta('og:description', description, 'property');
     this.setMeta('og:type', 'article', 'property');
     this.setMeta('og:url', canonicalUrl, 'property');
     this.setMeta('twitter:card', 'summary');
-    this.setMeta('twitter:title', `${title} | BrightMind`);
+    this.setMeta('twitter:title', `${title} | Gyanology`);
     this.setMeta('twitter:description', description);
     this.setCanonical(canonicalUrl);
     this.setJsonLd('article-jsonld', {
@@ -186,11 +186,11 @@ const SEOManager = {
       dateModified: article.date,
       author: {
         '@type': 'Person',
-        name: article.author || 'BrightMind Editorial Team'
+        name: article.author || 'Gyanology Editorial Team'
       },
       publisher: {
         '@type': 'Organization',
-        name: 'BrightMind'
+        name: 'Gyanology'
       },
       articleSection: article.category,
       keywords: Array.isArray(article.tags) ? article.tags.join(', ') : undefined,
@@ -500,7 +500,7 @@ const ArticleDetail = {
     const title = (lang === 'hi' && a.title_hi) ? a.title_hi : a.title;
     const content = (lang === 'hi' && a.content_hi) ? a.content_hi : a.content;
 
-    document.title = `${title} | BrightMind`;
+    document.title = `${title} | Gyanology`;
     const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
     set('article-title', title);
     set('article-content', content);
@@ -578,7 +578,7 @@ const ArticleDetail = {
       },
       "publisher": {
         "@type": "Organization",
-        "name": "BrightMind",
+        "name": "Gyanology",
         "logo": {
           "@type": "ImageObject",
           "url": `${currentOrigin}/data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>`
@@ -878,10 +878,10 @@ const FloatingAppBanner = {
       <button class="app-banner-close" aria-label="Dismiss">&times;</button>
       <div class="app-banner-logo">📱</div>
       <div class="app-banner-info">
-        <h4>BrightMind App is Live!</h4>
+        <h4>Gyanology App is Live!</h4>
         <p>Learn offline with our free Android app.</p>
       </div>
-      <a href="app/brightmind.apk" class="app-banner-download" download>Install APK</a>
+      <a href="app/gyanology.apk" class="app-banner-download" download>Install APK</a>
     `;
 
     document.body.appendChild(banner);

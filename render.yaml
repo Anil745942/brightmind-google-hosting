@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: brightmind-google-hosting
+    name: gyanology-google-hosting
     env: node
     plan: free
     buildCommand: npm install

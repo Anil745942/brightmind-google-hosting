@@ -1,6 +1,6 @@
-/* ===== BRIGHTMIND - FRONTEND EMAILJS SERVICE =====
+/* ===== GYANOLOGY - FRONTEND EMAILJS SERVICE =====
  * Sends emails directly from the browser using EmailJS SDK.
- * 1. Admin notification — tells you someone contacted BrightMind
+ * 1. Admin notification — tells you someone contacted Gyanology
  * 2. Auto-reply — thanks the user for reaching out
  *
  * How to set up on https://www.emailjs.com :

@@ -1,4 +1,4 @@
-# 🚀 Complete Deployment Guide - BrightMind to Google Cloud
+# 🚀 Complete Deployment Guide - Gyanology to Google Cloud
 
 ## ✅ Pre-Deployment Status
 
@@ -52,7 +52,7 @@ gcloud config list
 
 ```powershell
 # From the project root directory, run:
-gcloud run deploy brightmind `
+gcloud run deploy gyanology `
   --source . `
   --region asia-south1 `
   --allow-unauthenticated `
@@ -68,26 +68,26 @@ gcloud run deploy brightmind `
 **The deployment will:**
 - Build a Docker container automatically
 - Deploy your Node.js backend + frontend
-- Provide a temporary Cloud Run URL (like: https://brightmind-xxxxx.run.app)
+- Provide a temporary Cloud Run URL (like: https://gyanology-xxxxx.run.app)
 
 ## ✅ Step 5: Test Live Deployment
 
 After deployment completes, test these URLs:
 
 ```
-https://brightmind-xxxxx.run.app/                          # Home page
-https://brightmind-xxxxx.run.app/articles.html             # Articles page
-https://brightmind-xxxxx.run.app/api/articles              # API endpoint
-https://brightmind-xxxxx.run.app/api/health                # Health check
-https://brightmind-xxxxx.run.app/sitemap.xml               # Sitemap
-https://brightmind-xxxxx.run.app/robots.txt                # Robots file
+https://gyanology-xxxxx.run.app/                          # Home page
+https://gyanology-xxxxx.run.app/articles.html             # Articles page
+https://gyanology-xxxxx.run.app/api/articles              # API endpoint
+https://gyanology-xxxxx.run.app/api/health                # Health check
+https://gyanology-xxxxx.run.app/sitemap.xml               # Sitemap
+https://gyanology-xxxxx.run.app/robots.txt                # Robots file
 ```
 
 ## 🌐 Step 6: Set Up Custom Domain
 
 1. Buy a domain (GoDaddy, Namecheap, Google Domains, etc.)
 2. In Google Cloud Console:
-   - Go to Cloud Run → brightmind service
+   - Go to Cloud Run → gyanology service
    - Click "Manage Custom Domains"
    - Add your domain
    - Follow DNS verification steps
@@ -124,17 +124,17 @@ https://brightmind-xxxxx.run.app/robots.txt                # Robots file
 After initial deployment, to redeploy with changes:
 
 ```powershell
-gcloud run deploy brightmind --source .
+gcloud run deploy gyanology --source .
 ```
 
 ## 📚 Useful Commands
 
 ```powershell
 # View deployment logs
-gcloud run logs read brightmind --limit 100
+gcloud run logs read gyanology --limit 100
 
 # Get service details
-gcloud run services describe brightmind
+gcloud run services describe gyanology
 
 # Check traffic and requests
 gcloud monitoring metrics-descriptors list --filter="resource.type=cloud_run_revision"
@@ -166,7 +166,7 @@ The app automatically:
 - Ensure Node.js version is specified
 
 ### Articles not loading on live:
-- Check Cloud Run logs: `gcloud run logs read brightmind`
+- Check Cloud Run logs: `gcloud run logs read gyanology`
 - Verify `/api/articles` endpoint responds: `https://your-domain.com/api/articles`
 - Check browser console for CORS issues
 
@@ -177,7 +177,7 @@ The app automatically:
 
 ## 🎉 Congratulations!
 
-Your BrightMind educational platform is ready for:
+Your Gyanology educational platform is ready for:
 - ✅ Global visitors
 - ✅ SEO indexing
 - ✅ Google AdSense approval

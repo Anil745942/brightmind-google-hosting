@@ -46,7 +46,7 @@ const sendContactNotification = async (contactData) => {
     }
 
     const { name, email, subject, message } = contactData;
-    const adminEmail = process.env.ADMIN_EMAIL || 'contact@brightmind.local';
+    const adminEmail = process.env.ADMIN_EMAIL || 'contact@gyanology.local';
 
     const templateParams = {
       to_email: adminEmail,

@@ -85,7 +85,7 @@ When user submits contact form at `http://localhost:3000/contact.html`:
 
 After deploying to Google Cloud:
 ```
-gcloud run deploy brightmind --source .
+gcloud run deploy gyanology --source .
 ```
 
 Emails will use the same templates automatically.
@@ -105,9 +105,9 @@ ADMIN_EMAIL=your-email@gmail.com
 
 Set these in Cloud Run Environment Variables:
 ```
-Console: Cloud Run → brightmind → Edit & Deploy New Revision → Runtime Settings
+Console: Cloud Run → gyanology → Edit & Deploy New Revision → Runtime Settings
 Or via gcloud:
-gcloud run deploy brightmind \
+gcloud run deploy gyanology \
   --update-env-vars ADMIN_EMAIL=your-email@gmail.com
 ```
 
@@ -157,7 +157,7 @@ When admin replies via EmailJS, you can add:
 
 ## 🎉 Done!
 
-Your BrightMind site now has:
+Your Gyanology site now has:
 - ✅ Working contact form
 - ✅ Email notifications to admin
 - ✅ Automatic user responses

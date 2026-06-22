@@ -1,4 +1,4 @@
-# BrightMind Growth + AdSense Safety Checklist
+# Gyanology Growth + AdSense Safety Checklist
 
 ## Before Applying To AdSense
 

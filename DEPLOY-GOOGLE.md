@@ -1,4 +1,4 @@
-# BrightMind Google Hosting Checklist
+# Gyanology Google Hosting Checklist
 
 Use Google Cloud Run for the simplest frontend + backend deployment.
 
@@ -22,7 +22,7 @@ Install and sign in to Google Cloud CLI, then run these commands from this proje
 ```powershell
 gcloud auth login
 gcloud config set project YOUR_PROJECT_ID
-gcloud run deploy brightmind --source . --region asia-south1 --allow-unauthenticated
+gcloud run deploy gyanology --source . --region asia-south1 --allow-unauthenticated
 ```
 
 After deploy, open the Cloud Run URL and test:

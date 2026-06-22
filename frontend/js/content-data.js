@@ -1,4 +1,4 @@
-window.BRIGHTMIND_DATA = {
+window.GYANOLOGY_DATA = {
   "generatedAt": "2026-06-11T10:35:31.553Z",
   "articles": [
     {
