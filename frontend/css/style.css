@@ -465,11 +465,43 @@ img { max-width: 100%; height: auto; }
   .share-buttons { margin-left: 0; }
   .article-meta-row { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
+@media (max-width: 576px) {
+  .nav-actions .btn { display: none; } /* Hide Start Learning button to save space */
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    max-width: 320px;
+    margin: 0 auto 30px;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+  .newsletter-section {
+    padding: 30px 20px;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    justify-items: center;
+  }
+}
 @media (max-width: 480px) {
-  .hero-stats { flex-direction: column; gap: 24px; }
   .team-grid { grid-template-columns: 1fr; }
   .category-tabs { gap: 6px; }
   .cat-tab { padding: 8px 14px; font-size: 12px; }
+  .logo-text { font-size: 18px; } /* Slightly smaller logo text to prevent wrap */
+  .logo-icon { width: 34px; height: 34px; font-size: 16px; }
+  .hero-search-form .search-input {
+    padding-right: 90px;
+    font-size: 14px;
+  }
+  .hero-search-form button[type="submit"] {
+    padding: 0 14px !important;
+    font-size: 12px !important;
+  }
 }
 
 /* ===== HERO SEARCH BOX ===== */
