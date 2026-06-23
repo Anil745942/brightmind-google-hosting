@@ -974,6 +974,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   NewsletterManager.init();
 });
-
-const helmet = require('helmet');
-app.use(helmet());
