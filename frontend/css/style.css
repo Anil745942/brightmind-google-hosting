@@ -664,6 +664,66 @@ img { max-width: 100%; height: auto; }
   margin: 16px 0;
 }
 
+.section-ad-banner {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.ad-banner {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: var(--shadow-sm);
+}
+.ad-banner-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.ad-banner ins.adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  min-height: 120px;
+}
+
+@media (max-width: 768px) {
+  .ad-banner {
+    padding: 14px;
+    border-radius: var(--radius-lg);
+  }
+  .ad-banner-label {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  .ad-banner ins.adsbygoogle {
+    min-height: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ad-banner {
+    padding: 12px;
+    border-radius: var(--radius-md);
+  }
+  .ad-banner-label {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .ad-banner ins.adsbygoogle {
+    min-height: 80px;
+  }
+}
+
 /* ===== COOKIE CONSENT BANNER ===== */
 .cookie-consent-banner {
   position: fixed;
