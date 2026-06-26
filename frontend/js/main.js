@@ -227,10 +227,14 @@ const NavManager = {
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     if (hamburger && mobileMenu) {
-      hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+      hamburger.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+        hamburger.classList.toggle('active');
+      });
       document.addEventListener('click', (e) => {
         if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
           mobileMenu.classList.remove('open');
+          hamburger.classList.remove('active');
         }
       });
     }
@@ -243,6 +247,34 @@ const NavManager = {
       }
     });
   }
+};
+
+const getSkeletonsHTML = (count = 3) => {
+  let html = '';
+  for (let i = 0; i < count; i++) {
+    html += `
+      <div class="skeleton-card">
+        <div class="skeleton-image skeleton-shimmer"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-meta">
+            <div class="skeleton-bar skeleton-shimmer" style="width: 60px;"></div>
+            <div class="skeleton-bar skeleton-shimmer" style="width: 80px;"></div>
+          </div>
+          <div class="skeleton-title skeleton-shimmer" style="width: 80%; height: 20px;"></div>
+          <div class="skeleton-excerpt skeleton-shimmer" style="width: 90%; height: 14px;"></div>
+          <div class="skeleton-excerpt-short skeleton-shimmer" style="width: 60%; height: 14px;"></div>
+          <div class="skeleton-footer">
+            <div class="skeleton-author">
+              <div class="skeleton-avatar skeleton-shimmer" style="width: 28px; height: 28px; border-radius: 50%;"></div>
+              <div class="skeleton-author-name skeleton-shimmer" style="width: 60px; height: 12px;"></div>
+            </div>
+            <div class="skeleton-arrow skeleton-shimmer" style="width: 32px; height: 32px; border-radius: 50%;"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  return html;
 };
 
 // ===== ARTICLES MANAGER (Articles Page) =====
@@ -320,9 +352,12 @@ const ArticlesManager = {
 
   async applyFilters() {
     let searchResults = [];
+    const container = document.getElementById('articles-container');
+    if (container) {
+      container.innerHTML = getSkeletonsHTML(this.perPage);
+    }
     
     if (this.currentSearch) {
-      const container = document.getElementById('articles-container');
       if (container) {
         container.innerHTML = `
           <div class="empty-state" style="grid-column: 1/-1; padding: 40px; text-align: center;">
@@ -349,7 +384,10 @@ const ArticlesManager = {
         return matchCat;
       });
     }
-    this.render();
+    // Delay rendering by a short phase to ensure smooth shimmer visibility
+    setTimeout(() => {
+      this.render();
+    }, 400);
   },
 
   render() {
@@ -438,9 +476,12 @@ const HomeManager = {
   },
 
   async loadArticles(category) {
+    const container = document.getElementById('featured-articles');
+    if (container) {
+      container.innerHTML = getSkeletonsHTML(3);
+    }
     const endpoint = category === 'all' ? '/articles?limit=6' : `/articles?category=${category}&limit=6`;
     const data = await API.get(endpoint);
-    const container = document.getElementById('featured-articles');
     if (!container) return;
     if (!data || data.length === 0) { container.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><p>Articles load nahi ho sake.</p></div>'; return; }
 
