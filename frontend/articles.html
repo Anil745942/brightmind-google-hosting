@@ -73,8 +73,9 @@
       <div style="display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap; margin-bottom:32px;">
         <div class="search-wrapper" style="margin:0; flex:1; min-width:280px; max-width:500px;">
           <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" id="search-input" placeholder="Search articles... (e.g. Newton, SSC, India)" />
+          <input type="text" class="search-input" id="search-input" placeholder="Search articles... (e.g. Newton, SSC, India)" autocomplete="off" />
           <button class="search-clear" id="search-clear" title="Clear search">✕</button>
+          <div class="suggest-dropdown" id="articles-suggest-dropdown"></div>
         </div>
         <div class="lang-toggle">
           <button class="lang-btn active" data-lang="en">🇬🇧 EN</button>
@@ -88,6 +89,7 @@
         <button class="cat-tab" data-cat="school">🎒 School (Class 6-12)</button>
         <button class="cat-tab" data-cat="competitive">🏆 Competitive Exams</button>
         <button class="cat-tab" data-cat="gk">🌍 General Knowledge</button>
+        <button class="cat-tab" data-cat="saved" id="saved-tab">🔖 Saved <span class="saved-articles-badge" id="saved-count" style="display:none">0</span></button>
       </div>
 
       <!-- Articles Page Ad Slot -->

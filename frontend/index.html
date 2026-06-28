@@ -161,8 +161,9 @@ l.parentNode.insertBefore(s, l);
           <form class="hero-search-form" id="hero-search-form" style="margin: 24px 0 16px; max-width: 500px;">
             <div class="search-wrapper">
               <span class="search-icon">🔍</span>
-              <input type="text" class="search-input" id="hero-search-input" placeholder="Search for subjects, SSC preparation, GK..." required />
+              <input type="text" class="search-input" id="hero-search-input" placeholder="Search for subjects, SSC preparation, GK..." required autocomplete="off" />
               <button type="submit" class="btn btn-primary" style="position: absolute; right: 4px; top: 4px; bottom: 4px; padding: 0 20px; border-radius: 50px; font-size: 13px;">Search</button>
+              <div class="suggest-dropdown" id="hero-suggest-dropdown"></div>
             </div>
           </form>
           <div class="hero-actions">

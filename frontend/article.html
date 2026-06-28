@@ -108,6 +108,20 @@
 
       <!-- Tags -->
       <div class="tags-list" id="article-tags"></div>
+
+      <!-- Article Action Toolbar: TTS, Font Size, Bookmark -->
+      <div class="article-action-bar" id="article-action-bar">
+        <div class="action-group">
+          <button class="action-btn-tool" id="tts-btn" title="Listen to this article">🔊 Listen</button>
+          <button class="action-btn-tool" id="tts-stop-btn" title="Stop audio" style="display:none">⏹️ Stop</button>
+          <button class="action-btn-tool" id="font-increase" title="Increase font size">A+</button>
+          <button class="action-btn-tool" id="font-decrease" title="Decrease font size">A-</button>
+          <button class="action-btn-tool" id="font-reset" title="Reset font size">↻ Reset</button>
+        </div>
+        <div class="action-group">
+          <button class="action-btn-tool" id="bookmark-btn" title="Save for later">🔖 Save</button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -128,6 +142,26 @@
 
         <div class="article-content" id="article-content">
           <p style="color:var(--text-muted); text-align:center; padding:40px;">⏳ Loading article content...</p>
+        </div>
+
+        <!-- Emoji Reactions -->
+        <div class="reactions-container" id="reactions-container">
+          <h3 class="reactions-title">How was this article?</h3>
+          <div class="reactions-grid" id="reactions-grid">
+            <button class="reaction-chip" data-reaction="helpful">👍 Helpful <span class="reaction-count" id="count-helpful">0</span></button>
+            <button class="reaction-chip" data-reaction="loved">❤️ Loved it <span class="reaction-count" id="count-loved">0</span></button>
+            <button class="reaction-chip" data-reaction="insightful">💡 Insightful <span class="reaction-count" id="count-insightful">0</span></button>
+            <button class="reaction-chip" data-reaction="mindblown">😮 Mind-blown <span class="reaction-count" id="count-mindblown">0</span></button>
+          </div>
+        </div>
+
+        <!-- 1-Click Social Share -->
+        <div class="social-share-bar" id="social-share-bar">
+          <span style="font-weight:600; color:var(--text-secondary); font-size:14px;">Share this article:</span>
+          <a class="social-btn btn-wa" id="share-whatsapp" href="#" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="social-btn btn-tw" id="share-twitter" href="#" target="_blank" rel="noopener">🐦 Twitter/X</a>
+          <a class="social-btn btn-ln" id="share-linkedin" href="#" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a class="social-btn btn-fb" id="share-facebook" href="#" target="_blank" rel="noopener">📘 Facebook</a>
         </div>
 
         <!-- Bottom Content Ad Slot -->

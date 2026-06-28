@@ -1149,4 +1149,192 @@ html, body {
   }
 }
 
+/* ===== 8 PREMIUM FEATURES STYLES ===== */
+
+/* 1. Reading & Audio Toolbar */
+.article-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  margin: 20px 0;
+  backdrop-filter: blur(10px);
+}
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.action-btn-tool {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+.action-btn-tool:hover {
+  background: var(--accent-indigo);
+  color: #ffffff;
+  border-color: var(--accent-indigo);
+  transform: translateY(-2px);
+}
+.action-btn-tool.active {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* 2. Instant Search Auto-Suggest Overlay */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+.suggest-dropdown {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  max-height: 350px;
+  overflow-y: auto;
+  display: none;
+}
+.suggest-dropdown.show {
+  display: block;
+}
+.suggest-item {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.suggest-item:last-child {
+  border-bottom: none;
+}
+.suggest-item:hover {
+  background: var(--bg-hover);
+}
+.suggest-emoji {
+  font-size: 20px;
+}
+.suggest-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.suggest-cat {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* 3. Emoji Reactions Box */
+.reactions-container {
+  margin: 40px 0 20px;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.reactions-title {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+.reactions-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.reaction-chip {
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  padding: 10px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: var(--transition);
+}
+.reaction-chip:hover {
+  border-color: var(--accent-indigo);
+  transform: scale(1.08);
+}
+.reaction-chip.reacted {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--accent-indigo);
+  color: var(--accent-indigo);
+}
+.reaction-count {
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+/* 4. Enhanced 1-Click Social Share Modal / Toolbar */
+.social-share-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+.social-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+.social-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+.btn-wa { background: #25D366; }
+.btn-tw { background: #1DA1F2; }
+.btn-ln { background: #0A66C2; }
+.btn-fb { background: #1877F2; }
+
+/* 5. Bookmarks Filter Badge & Tab */
+.saved-articles-badge {
+  background: var(--accent-amber);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 4px;
+}
+
+
 

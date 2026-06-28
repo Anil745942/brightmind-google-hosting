@@ -320,6 +320,7 @@ const ArticlesManager = {
     const data = await API.get('/articles');
     if (data) {
       this.all = data;
+      this.updateSavedBadgeCount();
       this.applyFilters();
     } else {
       const container = document.getElementById('articles-container');
@@ -357,6 +358,9 @@ const ArticlesManager = {
       container.innerHTML = getSkeletonsHTML(this.perPage);
     }
     
+    const bookmarks = JSON.parse(localStorage.getItem('bm-bookmarks') || '[]');
+    this.updateSavedBadgeCount();
+
     if (this.currentSearch) {
       if (container) {
         container.innerHTML = `
@@ -373,21 +377,33 @@ const ArticlesManager = {
       if (data) {
         searchResults = data;
       }
-      // Backend has already filtered by search term, we only filter by category locally.
       this.filtered = searchResults.filter(article => {
+        if (this.currentCategory === 'saved') {
+          return bookmarks.includes(article.slug);
+        }
         return this.currentCategory === 'all' || article.category === this.currentCategory;
       });
     } else {
       searchResults = this.all;
       this.filtered = searchResults.filter(article => {
-        const matchCat = this.currentCategory === 'all' || article.category === this.currentCategory;
-        return matchCat;
+        if (this.currentCategory === 'saved') {
+          return bookmarks.includes(article.slug);
+        }
+        return this.currentCategory === 'all' || article.category === this.currentCategory;
       });
     }
-    // Delay rendering by a short phase to ensure smooth shimmer visibility
     setTimeout(() => {
       this.render();
     }, 400);
+  },
+
+  updateSavedBadgeCount() {
+    const bookmarks = JSON.parse(localStorage.getItem('bm-bookmarks') || '[]');
+    const badge = document.getElementById('saved-count');
+    if (badge) {
+      badge.textContent = bookmarks.length;
+      badge.style.display = bookmarks.length > 0 ? 'inline-block' : 'none';
+    }
   },
 
   render() {
@@ -895,6 +911,349 @@ const CookieConsent = {
   }
 };
 
+// ===== TEXT-TO-SPEECH (TTS) MANAGER =====
+const TTSManager = {
+  synth: window.speechSynthesis,
+  utterance: null,
+  isPlaying: false,
+
+  init() {
+    const playBtn = document.getElementById('tts-btn');
+    const stopBtn = document.getElementById('tts-stop-btn');
+    if (!playBtn) return;
+
+    playBtn.addEventListener('click', () => {
+      if (this.isPlaying) {
+        this.pause();
+      } else {
+        this.speak();
+      }
+    });
+
+    stopBtn?.addEventListener('click', () => {
+      this.stop();
+    });
+  },
+
+  speak() {
+    if (this.synth.paused && this.utterance) {
+      this.synth.resume();
+      this.isPlaying = true;
+      this.updateUI();
+      return;
+    }
+
+    this.stop();
+
+    const contentEl = document.getElementById('article-content');
+    if (!contentEl) return;
+
+    // Extract readable text, remove script and styles
+    const text = contentEl.innerText || contentEl.textContent;
+    this.utterance = new SpeechSynthesisUtterance(text);
+
+    // Auto-detect Hindi vs English language to pick correct voice direction
+    const isHindi = document.getElementById('lang-hi')?.classList.contains('active');
+    this.utterance.lang = isHindi ? 'hi-IN' : 'en-US';
+
+    this.utterance.onend = () => {
+      this.stop();
+    };
+
+    this.utterance.onerror = () => {
+      this.stop();
+    };
+
+    this.synth.speak(this.utterance);
+    this.isPlaying = true;
+    this.updateUI();
+  },
+
+  pause() {
+    if (this.synth.speaking && !this.synth.paused) {
+      this.synth.pause();
+      this.isPlaying = false;
+      this.updateUI();
+    }
+  },
+
+  stop() {
+    this.synth.cancel();
+    this.isPlaying = false;
+    this.utterance = null;
+    this.updateUI();
+  },
+
+  updateUI() {
+    const playBtn = document.getElementById('tts-btn');
+    const stopBtn = document.getElementById('tts-stop-btn');
+    if (playBtn) {
+      playBtn.textContent = this.isPlaying ? '⏸️ Pause' : '🔊 Listen';
+      playBtn.classList.toggle('active', this.isPlaying);
+    }
+    if (stopBtn) {
+      stopBtn.style.display = (this.isPlaying || this.synth.paused) ? 'inline-flex' : 'none';
+    }
+  }
+};
+
+// ===== FONT SIZE ADJUSTER =====
+const FontAdjuster = {
+  currentScale: 100,
+
+  init() {
+    const incBtn = document.getElementById('font-increase');
+    const decBtn = document.getElementById('font-decrease');
+    const rstBtn = document.getElementById('font-reset');
+    const contentEl = document.getElementById('article-content');
+
+    if (!contentEl) return;
+
+    incBtn?.addEventListener('click', () => {
+      if (this.currentScale < 140) {
+        this.currentScale += 10;
+        this.apply();
+      }
+    });
+
+    decBtn?.addEventListener('click', () => {
+      if (this.currentScale > 80) {
+        this.currentScale -= 10;
+        this.apply();
+      }
+    });
+
+    rstBtn?.addEventListener('click', () => {
+      this.currentScale = 100;
+      this.apply();
+    });
+  },
+
+  apply() {
+    const contentEl = document.getElementById('article-content');
+    if (contentEl) {
+      contentEl.style.fontSize = `${this.currentScale}%`;
+      contentEl.style.lineHeight = `${1.6 + (this.currentScale - 100) / 200}`;
+    }
+  }
+};
+
+// ===== BOOKMARK PAGE MANAGER (Single Article) =====
+const BookmarkPageManager = {
+  slug: null,
+
+  init() {
+    const btn = document.getElementById('bookmark-btn');
+    if (!btn) return;
+
+    const params = new URLSearchParams(window.location.search);
+    this.slug = params.get('slug');
+    if (!this.slug) return;
+
+    this.updateUI();
+
+    btn.addEventListener('click', () => {
+      this.toggle();
+    });
+  },
+
+  isBookmarked() {
+    const bookmarks = JSON.parse(localStorage.getItem('bm-bookmarks') || '[]');
+    return bookmarks.includes(this.slug);
+  },
+
+  toggle() {
+    let bookmarks = JSON.parse(localStorage.getItem('bm-bookmarks') || '[]');
+    if (this.isBookmarked()) {
+      bookmarks = bookmarks.filter(s => s !== this.slug);
+      showToast('🔖 Bookmark removed');
+    } else {
+      bookmarks.push(this.slug);
+      showToast('🔖 Bookmark saved successfully!');
+    }
+    localStorage.setItem('bm-bookmarks', JSON.stringify(bookmarks));
+    this.updateUI();
+  },
+
+  updateUI() {
+    const btn = document.getElementById('bookmark-btn');
+    if (!btn) return;
+    if (this.isBookmarked()) {
+      btn.textContent = '🔖 Saved';
+      btn.classList.add('active');
+    } else {
+      btn.textContent = '🔖 Save';
+      btn.classList.remove('active');
+    }
+  }
+};
+
+// ===== EMOJI REACTIONS =====
+const ReactionManager = {
+  slug: null,
+
+  init() {
+    const grid = document.getElementById('reactions-grid');
+    if (!grid) return;
+
+    const params = new URLSearchParams(window.location.search);
+    this.slug = params.get('slug');
+    if (!this.slug) return;
+
+    this.loadReactions();
+
+    grid.querySelectorAll('.reaction-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.dataset.reaction;
+        this.react(type);
+      });
+    });
+  },
+
+  getStorageKey(type) {
+    return `bm-reaction-${this.slug}-${type}`;
+  },
+
+  getGlobalKey(type) {
+    return `bm-reaction-global-${this.slug}-${type}`;
+  },
+
+  loadReactions() {
+    const types = ['helpful', 'loved', 'insightful', 'mindblown'];
+    types.forEach(type => {
+      // Local storage mock for reactions count
+      const localCount = parseInt(localStorage.getItem(this.getGlobalKey(type)) || Math.floor(Math.random() * 20) + 5);
+      // Save default value back if not existing
+      if (!localStorage.getItem(this.getGlobalKey(type))) {
+        localStorage.setItem(this.getGlobalKey(type), localCount);
+      }
+      
+      const countEl = document.getElementById(`count-${type}`);
+      if (countEl) countEl.textContent = localCount;
+
+      const userReacted = localStorage.getItem(this.getStorageKey(type)) === 'true';
+      const chip = document.querySelector(`.reaction-chip[data-reaction="${type}"]`);
+      if (chip && userReacted) {
+        chip.classList.add('reacted');
+      }
+    });
+  },
+
+  react(type) {
+    const userReactedKey = this.getStorageKey(type);
+    const globalCountKey = this.getGlobalKey(type);
+    const userReacted = localStorage.getItem(userReactedKey) === 'true';
+    let currentCount = parseInt(localStorage.getItem(globalCountKey) || '0');
+
+    const chip = document.querySelector(`.reaction-chip[data-reaction="${type}"]`);
+    if (!chip) return;
+
+    if (userReacted) {
+      currentCount = Math.max(0, currentCount - 1);
+      localStorage.setItem(userReactedKey, 'false');
+      chip.classList.remove('reacted');
+      showToast('Removed reaction');
+    } else {
+      currentCount += 1;
+      localStorage.setItem(userReactedKey, 'true');
+      chip.classList.add('reacted');
+      showToast('Reaction added! Thank you.');
+    }
+
+    localStorage.setItem(globalCountKey, currentCount);
+    const countEl = document.getElementById(`count-${type}`);
+    if (countEl) countEl.textContent = currentCount;
+  }
+};
+
+// ===== AUTO-SUGGEST SEARCH =====
+const AutoSuggestManager = {
+  articles: [],
+
+  async init() {
+    // Cache articles
+    const data = await API.get('/articles');
+    this.articles = data || [];
+
+    this.setupSuggest('hero-search-input', 'hero-suggest-dropdown');
+    this.setupSuggest('search-input', 'articles-suggest-dropdown');
+  },
+
+  setupSuggest(inputId, dropdownId) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+    if (!input || !dropdown) return;
+
+    input.addEventListener('input', () => {
+      const q = input.value.toLowerCase().trim();
+      if (!q) {
+        dropdown.classList.remove('show');
+        return;
+      }
+
+      const matches = this.articles.filter(a =>
+        a.title.toLowerCase().includes(q) ||
+        (a.title_hi || '').toLowerCase().includes(q) ||
+        a.excerpt.toLowerCase().includes(q)
+      ).slice(0, 5);
+
+      if (matches.length === 0) {
+        dropdown.innerHTML = '<div class="suggest-item"><div class="suggest-title">No articles found</div></div>';
+      } else {
+        dropdown.innerHTML = matches.map(a => `
+          <div class="suggest-item" data-slug="${a.slug}">
+            <div class="suggest-emoji">${a.emoji || '📚'}</div>
+            <div>
+              <div class="suggest-title">${a.title}</div>
+              <div class="suggest-cat">${a.category}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      dropdown.classList.add('show');
+
+      dropdown.querySelectorAll('.suggest-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const slug = item.dataset.slug;
+          if (slug) {
+            window.location.href = `article.html?slug=${encodeURIComponent(slug)}`;
+          }
+        });
+      });
+    });
+
+    // Close suggestion on click outside
+    document.addEventListener('click', (e) => {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+  }
+};
+
+// ===== SOCIAL SHARING ENHANCEMENT =====
+const SocialShareManager = {
+  init() {
+    const wa = document.getElementById('share-whatsapp');
+    const tw = document.getElementById('share-twitter');
+    const ln = document.getElementById('share-linkedin');
+    const fb = document.getElementById('share-facebook');
+    if (!wa && !tw && !ln && !fb) return;
+
+    setTimeout(() => {
+      const title = document.getElementById('article-title')?.textContent || document.title;
+      const url = encodeURIComponent(window.location.href);
+      const text = encodeURIComponent(title);
+
+      if (wa) wa.href = `https://api.whatsapp.com/send?text=${text}%20${url}`;
+      if (tw) tw.href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+      if (ln) ln.href = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+      if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+    }, 1200);
+  }
+};
+
 // ===== TOAST =====
 function showToast(message, type = 'success') {
   const existing = document.querySelector('.toast');
@@ -947,6 +1306,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('theme-toggle')?.addEventListener('click', () => ThemeManager.toggle());
 
   const page = document.body.dataset.page;
+
+  AutoSuggestManager.init();
 
   if (page === 'home') {
     HomeManager.init();
@@ -1009,7 +1370,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if (page === 'article') ArticleDetail.init();
+  if (page === 'article') {
+    ArticleDetail.init();
+    TTSManager.init();
+    FontAdjuster.init();
+    BookmarkPageManager.init();
+    ReactionManager.init();
+    SocialShareManager.init();
+  }
   if (page === 'contact') ContactManager.init();
   if (page === 'admin') AdminManager.init();
 
