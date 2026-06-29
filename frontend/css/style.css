@@ -1336,5 +1336,103 @@ html, body {
   margin-left: 4px;
 }
 
+/* 6. MCQ Quizzes */
+.quiz-container {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin: 36px 0;
+  box-shadow: var(--shadow-md);
+}
+.quiz-question-box {
+  margin-bottom: 20px;
+}
+.quiz-q-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.quiz-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quiz-opt-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
+.quiz-opt-btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--accent-indigo);
+}
+.quiz-opt-btn.correct {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+  font-weight: 600;
+}
+.quiz-opt-btn.incorrect {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.quiz-score-display {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* 7. Voice Search Button Styles */
+.voice-search-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  right: 76px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  z-index: 10;
+}
+.voice-search-btn:hover {
+  color: var(--accent-indigo);
+}
+.voice-search-btn.listening {
+  color: #ef4444;
+  animation: pulse-voice 1s infinite alternate;
+}
+@keyframes pulse-voice {
+  from { transform: translateY(-50%) scale(1); }
+  to { transform: translateY(-50%) scale(1.2); }
+}
+
+/* Adjust general search input spacing for voice search button */
+.search-wrapper .search-input {
+  padding-right: 120px !important;
+}
+
+
 
 

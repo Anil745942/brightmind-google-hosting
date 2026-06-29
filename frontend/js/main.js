@@ -537,6 +537,10 @@ const ArticleDetail = {
     this.render('en');
     this.initReadingProgress();
     this.loadRelated(article.category, slug);
+    
+    // Initialize new 5/5 star widgets
+    QuizManager.init(article.category);
+    NotesCopyManager.init();
 
     document.getElementById('lang-en')?.addEventListener('click', () => {
       this.currentLang = 'en';
@@ -1223,14 +1227,253 @@ const AutoSuggestManager = {
       });
     });
 
-    // Close suggestion on click outside
-    document.addEventListener('click', (e) => {
-      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.remove('show');
+// ===== VOICE SEARCH MANAGER =====
+const VoiceSearchManager = {
+  init() {
+    this.setupVoice('hero-voice-btn', 'hero-search-input', () => {
+      const form = document.getElementById('hero-search-form');
+      if (form) {
+        const query = document.getElementById('hero-search-input')?.value.trim();
+        if (query) {
+          window.location.href = `articles.html?search=${encodeURIComponent(query)}`;
+        }
       }
+    });
+    this.setupVoice('articles-voice-btn', 'search-input', (val) => {
+      if (typeof ArticlesManager !== 'undefined') {
+        ArticlesManager.search(val);
+      }
+    });
+  },
+
+  setupVoice(btnId, inputId, callback) {
+    const btn = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+    if (!btn || !input) return;
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      btn.style.display = 'none';
+      return;
+    }
+
+    const rec = new SpeechRecognition();
+    rec.continuous = false;
+    rec.interimResults = false;
+    rec.lang = 'en-US';
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (btn.classList.contains('listening')) {
+        rec.stop();
+      } else {
+        rec.start();
+      }
+    });
+
+    rec.onstart = () => {
+      btn.classList.add('listening');
+      btn.textContent = '🛑';
+      showToast('🎤 Listening... Please speak now', 'info');
+    };
+
+    rec.onend = () => {
+      btn.classList.remove('listening');
+      btn.textContent = '🎤';
+    };
+
+    rec.onresult = (e) => {
+      const result = e.results[0][0].transcript;
+      input.value = result;
+      showToast(`📝 Search query: "${result}"`, 'success');
+      if (callback) callback(result);
+    };
+
+    rec.onerror = () => {
+      showToast('⚠️ Voice input failed or denied', 'error');
+    };
+  }
+};
+
+// ===== REVISION NOTES COPY MANAGER =====
+const NotesCopyManager = {
+  init() {
+    const btn = document.getElementById('copy-notes-btn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      this.copy();
+    });
+  },
+
+  copy() {
+    const title = document.getElementById('article-title')?.innerText || document.title;
+    const contentEl = document.getElementById('article-content');
+    if (!contentEl) return;
+
+    let notesText = `📚 REVISION NOTES: ${title.toUpperCase()} 📚\n\n`;
+    const elements = contentEl.querySelectorAll('h2, h3, .highlight-box, .fact-box, li');
+    let count = 0;
+
+    elements.forEach(el => {
+      if (count > 25) return;
+      const tag = el.tagName;
+      if (tag === 'H2') {
+        notesText += `\n📌 ${el.innerText}\n`;
+      } else if (tag === 'H3') {
+        notesText += `\n🔹 ${el.innerText}\n`;
+      } else if (el.classList.contains('highlight-box') || el.classList.contains('fact-box')) {
+        notesText += `⚡ Quick Tip/Fact: ${el.innerText}\n`;
+        count++;
+      } else if (tag === 'LI') {
+        notesText += `• ${el.innerText}\n`;
+        count++;
+      }
+    });
+
+    notesText += `\n📖 For full details visit: ${window.location.href}`;
+
+    navigator.clipboard.writeText(notesText).then(() => {
+      showToast('📋 Revision notes copied to clipboard successfully!', 'success');
+    }).catch(() => {
+      showToast('❌ Failed to copy notes', 'error');
     });
   }
 };
+
+// ===== INTERACTIVE MCQ QUIZ MANAGER =====
+const QuizManager = {
+  questions: [],
+  score: 0,
+  answeredCount: 0,
+  slug: null,
+
+  quizData: {
+    "what-is-photosynthesis": [
+      { q: "Where does photosynthesis occur in plant cells?", o: ["Mitochondria", "Chloroplasts", "Ribosomes", "Nucleus"], a: 1 },
+      { q: "Which pigment captures light energy and gives plants their green color?", o: ["Carotenoid", "Chlorophyll", "Hemoglobin", "Melanin"], a: 1 },
+      { q: "What is released as a byproduct during photosynthesis?", o: ["Carbon Dioxide", "Nitrogen", "Oxygen", "Hydrogen"], a: 2 }
+    ],
+    "newtons-laws-of-motion": [
+      { q: "Which law is known as the Law of Inertia?", o: ["First Law", "Second Law", "Third Law", "Law of Gravitation"], a: 0 },
+      { q: "What is the formula representing Newton's Second Law?", o: ["F = m/a", "F = ma", "F = m + a", "W = mg"], a: 1 },
+      { q: "Action and reaction forces act on which objects?", o: ["The same object", "Different objects", "No objects", "Depending on gravity"], a: 1 }
+    ],
+    "english-grammar-tenses": [
+      { q: "Identify the tense: 'She has been studying for 2 hours.'", o: ["Present Perfect", "Present Continuous", "Present Perfect Continuous", "Simple Past"], a: 2 },
+      { q: "What is the structure of the Simple Past tense?", o: ["Subject + V1", "Subject + V2", "Subject + had + V3", "Subject + V-ing"], a: 1 }
+    ],
+    "french-revolution": [
+      { q: "Which estate paid all the taxes in pre-revolutionary France?", o: ["First Estate", "Second Estate", "Third Estate", "All estates equally"], a: 2 },
+      { q: "What was the main slogan of the French Revolution?", o: ["Peace, Land, and Bread", "Liberty, Equality, Fraternity", "No taxation without representation", "Give me liberty or death"], a: 1 }
+    ]
+  },
+
+  fallbackQuizzes: {
+    school: [
+      { q: "What is the smallest unit of life?", o: ["Tissue", "Organelle", "Cell", "Atom"], a: 2 },
+      { q: "Which planet is known as the Red Planet?", o: ["Venus", "Mars", "Jupiter", "Saturn"], a: 1 }
+    ],
+    competitive: [
+      { q: "Who was the first Prime Minister of India?", o: ["Mahatma Gandhi", "Dr. B.R. Ambedkar", "Jawaharlal Nehru", "Sardar Patel"], a: 2 },
+      { q: "Which body of the Indian Constitution is responsible for holding elections?", o: ["UPSC", "Election Commission", "NITI Aayog", "Finance Commission"], a: 1 }
+    ],
+    gk: [
+      { q: "What is the capital of India?", o: ["Mumbai", "Kolkata", "New Delhi", "Chennai"], a: 2 },
+      { q: "Which is the largest ocean on Earth?", o: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean", "Arctic Ocean"], a: 2 }
+    ]
+  },
+
+  init(category) {
+    const mount = document.getElementById('quiz-mount');
+    if (!mount) return;
+
+    const params = new URLSearchParams(window.location.search);
+    this.slug = params.get('slug');
+    if (!this.slug) return;
+
+    // Load custom questions, or fall back to category-based questions
+    this.questions = this.quizData[this.slug] || this.fallbackQuizzes[category] || this.fallbackQuizzes.gk;
+    this.score = 0;
+    this.answeredCount = 0;
+
+    this.render();
+  },
+
+  render() {
+    const mount = document.getElementById('quiz-mount');
+    if (!mount) return;
+
+    let html = `
+      <div class="quiz-container">
+        <h3 style="margin-bottom:16px; display:flex; align-items:center; gap:8px;">🧠 Article Quick Quiz</h3>
+    `;
+
+    this.questions.forEach((q, qIndex) => {
+      html += `
+        <div class="quiz-question-box" data-qindex="${qIndex}">
+          <div class="quiz-q-text">${qIndex + 1}. ${q.q}</div>
+          <div class="quiz-options-list">
+            ${q.o.map((opt, oIndex) => `
+              <button class="quiz-opt-btn" onclick="QuizManager.checkAnswer(${qIndex}, ${oIndex}, this)">${opt}</button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    html += `
+        <div class="quiz-footer">
+          <div class="quiz-score-display" id="quiz-score-text">Answer the questions above!</div>
+          <button class="action-btn-tool" onclick="QuizManager.resetQuiz()" style="font-size:12px;">Reset Quiz</button>
+        </div>
+      </div>
+    `;
+
+    mount.innerHTML = html;
+  },
+
+  checkAnswer(qIndex, oIndex, btn) {
+    const qBox = btn.closest('.quiz-question-box');
+    if (qBox.dataset.answered === "true") return;
+
+    qBox.dataset.answered = "true";
+    const correctIndex = this.questions[qIndex].a;
+    const buttons = qBox.querySelectorAll('.quiz-opt-btn');
+
+    buttons.forEach((b, idx) => {
+      b.disabled = true;
+      if (idx === correctIndex) {
+        b.classList.add('correct');
+      }
+    });
+
+    if (oIndex === correctIndex) {
+      this.score++;
+      showToast('🎉 Correct answer!', 'success');
+    } else {
+      btn.classList.add('incorrect');
+      showToast('❌ Wrong answer. Try another question!', 'error');
+    }
+
+    this.answeredCount++;
+    this.updateScoreUI();
+  },
+
+  updateScoreUI() {
+    const text = document.getElementById('quiz-score-text');
+    if (text) {
+      text.textContent = `Score: ${this.score} / ${this.questions.length} answered`;
+    }
+  },
+
+  resetQuiz() {
+    this.score = 0;
+    this.answeredCount = 0;
+    this.render();
+  }
+};
+window.QuizManager = QuizManager; // Expose globally for inline onclick handlers
 
 // ===== SOCIAL SHARING ENHANCEMENT =====
 const SocialShareManager = {
@@ -1308,6 +1551,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const page = document.body.dataset.page;
 
   AutoSuggestManager.init();
+  VoiceSearchManager.init();
 
   if (page === 'home') {
     HomeManager.init();
