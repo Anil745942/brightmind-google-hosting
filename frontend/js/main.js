@@ -1268,7 +1268,16 @@ const VoiceSearchManager = {
       if (btn.classList.contains('listening')) {
         rec.stop();
       } else {
-        rec.start();
+        try {
+          if (window.location.protocol === 'file:') {
+            showToast('⚠️ Note: Voice Search requires a local web server (e.g. Live Server). It may not work on file://', 'error');
+          }
+          rec.start();
+        } catch (err) {
+          showToast('⚠️ Microphone access blocked or already in use.', 'error');
+          btn.classList.remove('listening');
+          btn.textContent = '🎤';
+        }
       }
     });
 
@@ -1290,8 +1299,15 @@ const VoiceSearchManager = {
       if (callback) callback(result);
     };
 
-    rec.onerror = () => {
-      showToast('⚠️ Voice input failed or denied', 'error');
+    rec.onerror = (e) => {
+      console.error('Voice search error:', e.error);
+      if (e.error === 'not-allowed') {
+        showToast('⚠️ Please allow microphone access in your browser settings.', 'error');
+      } else {
+        showToast('⚠️ Voice input failed. Please try again.', 'error');
+      }
+      btn.classList.remove('listening');
+      btn.textContent = '🎤';
     };
   }
 };
