@@ -1756,3 +1756,239 @@ html, body {
     height: 300px;
   }
 }
+
+/* 9. GyanBot AI Chatbot - Premium $100k Glassmorphism Design */
+.gyanbot-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10000;
+  font-family: inherit;
+}
+
+.gyanbot-toggle-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-indigo), #818cf8);
+  border: none;
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35), 0 0 0 1px rgba(99, 102, 241, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+.gyanbot-toggle-btn:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.5);
+}
+.gyanbot-toggle-btn::after {
+  content: '';
+  position: absolute;
+  width: 12px; height: 12px;
+  background: var(--accent-emerald);
+  border: 2px solid var(--bg-card);
+  border-radius: 50%;
+  top: 2px; right: 2px;
+}
+
+.gyanbot-panel {
+  position: absolute;
+  bottom: 75px;
+  right: 0;
+  width: 380px;
+  height: 520px;
+  background: rgba(var(--bg-card-rgb, 20, 20, 30), 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.gyanbot-panel.active {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.gyanbot-header {
+  padding: 20px;
+  background: linear-gradient(135deg, var(--accent-indigo), rgba(129, 140, 248, 0.8));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gyanbot-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gyanbot-avatar {
+  font-size: 24px;
+}
+.gyanbot-header-text h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.gyanbot-status {
+  font-size: 12px;
+  opacity: 0.85;
+}
+.gyanbot-close-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.gyanbot-close-btn:hover {
+  opacity: 1;
+}
+
+.gyanbot-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+.gyanbot-msg {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.gyanbot-msg-bot {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.gyanbot-msg-user {
+  background: var(--accent-indigo);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.gyanbot-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+.gyanbot-suggest-btn {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  color: var(--accent-indigo);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+.gyanbot-suggest-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  transform: translateX(4px);
+}
+
+.gyanbot-input-area {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  gap: 10px;
+}
+.gyanbot-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.gyanbot-input:focus {
+  border-color: var(--accent-indigo);
+}
+.gyanbot-send-btn {
+  background: var(--accent-indigo);
+  border: none;
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  font-size: 18px;
+}
+.gyanbot-send-btn:hover {
+  transform: scale(1.05);
+  background: #818cf8;
+}
+
+/* Typing Indicator Animation */
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+.typing-dots span {
+  width: 8px; height: 8px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  animation: typing 1s infinite alternate;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  from { transform: translateY(0); opacity: 0.4; }
+  to { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Responsive Chatbot */
+@media (max-width: 480px) {
+  .gyanbot-wrapper {
+    bottom: 20px;
+    right: 20px;
+  }
+  .gyanbot-panel {
+    width: calc(100vw - 40px);
+    height: 460px;
+    bottom: 70px;
+  }
+  .gyanbot-toggle-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+}
+

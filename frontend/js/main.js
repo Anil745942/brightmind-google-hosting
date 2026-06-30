@@ -1651,4 +1651,157 @@ document.addEventListener('DOMContentLoaded', () => {
   if (page === 'admin') AdminManager.init();
 
   NewsletterManager.init();
+  GyanBotManager.init();
 });
+
+// ===== GYANBOT AI CHATBOT =====
+const GyanBotManager = {
+  init() {
+    if (document.body.dataset.page === 'admin') return;
+
+    this.renderWidget();
+    this.bindEvents();
+  },
+
+  renderWidget() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'gyanbot-wrapper';
+    wrapper.innerHTML = `
+      <button class="gyanbot-toggle-btn" title="Ask GyanBot AI">💬</button>
+      <div class="gyanbot-panel">
+        <div class="gyanbot-header">
+          <div class="gyanbot-header-info">
+            <span class="gyanbot-avatar">🤖</span>
+            <div class="gyanbot-header-text">
+              <h4>GyanBot AI</h4>
+              <span class="gyanbot-status">🟢 Online Tutor</span>
+            </div>
+          </div>
+          <button class="gyanbot-close-btn">&times;</button>
+        </div>
+        <div class="gyanbot-messages" id="gyanbot-msg-container">
+          <div class="gyanbot-msg gyanbot-msg-bot">
+            Hello! I am <strong>GyanBot AI</strong>, your educational tutor. 📚
+            <br><br>
+            Aap mujhse school, competitive exams ya general knowledge ke baare mein kuch bhi puch sakte hain!
+            <div class="gyanbot-suggestions">
+              <button class="gyanbot-suggest-btn" data-q="What is Photosynthesis?">🌿 What is Photosynthesis?</button>
+              <button class="gyanbot-suggest-btn" data-q="Newton's Laws of Motion">🍎 Newton's Laws of Motion</button>
+              <button class="gyanbot-suggest-btn" data-q="Fundamental Rights in India">⚖️ Fundamental Rights in India</button>
+            </div>
+          </div>
+        </div>
+        <div class="gyanbot-input-area">
+          <input type="text" class="gyanbot-input" placeholder="Ask GyanBot a question..." id="gyanbot-input-field">
+          <button class="gyanbot-send-btn" id="gyanbot-send-btn">➔</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(wrapper);
+  },
+
+  bindEvents() {
+    const toggleBtn = document.querySelector('.gyanbot-toggle-btn');
+    const panel = document.querySelector('.gyanbot-panel');
+    const closeBtn = document.querySelector('.gyanbot-close-btn');
+    const sendBtn = document.getElementById('gyanbot-send-btn');
+    const inputField = document.getElementById('gyanbot-input-field');
+
+    toggleBtn?.addEventListener('click', () => panel.classList.toggle('active'));
+    closeBtn?.addEventListener('click', () => panel.classList.remove('active'));
+
+    sendBtn?.addEventListener('click', () => this.handleSendMessage());
+    inputField?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') this.handleSendMessage();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('gyanbot-suggest-btn')) {
+        const query = e.target.dataset.q;
+        if (query) {
+          inputField.value = query;
+          this.handleSendMessage();
+        }
+      }
+    });
+  },
+
+  handleSendMessage() {
+    const inputField = document.getElementById('gyanbot-input-field');
+    const query = inputField.value.trim();
+    if (!query) return;
+
+    this.appendMessage(query, 'user');
+    inputField.value = '';
+
+    this.showTypingIndicator();
+
+    setTimeout(() => {
+      this.removeTypingIndicator();
+      const response = this.generateResponse(query);
+      this.appendMessage(response, 'bot');
+    }, 1000);
+  },
+
+  appendMessage(text, sender) {
+    const container = document.getElementById('gyanbot-msg-container');
+    const msg = document.createElement('div');
+    msg.className = `gyanbot-msg gyanbot-msg-${sender}`;
+    msg.innerHTML = text;
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+  },
+
+  showTypingIndicator() {
+    const container = document.getElementById('gyanbot-msg-container');
+    const indicator = document.createElement('div');
+    indicator.className = 'gyanbot-msg gyanbot-msg-bot';
+    indicator.id = 'gyanbot-typing-indicator';
+    indicator.innerHTML = `
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+    `;
+    container.appendChild(indicator);
+    container.scrollTop = container.scrollHeight;
+  },
+
+  removeTypingIndicator() {
+    const indicator = document.getElementById('gyanbot-typing-indicator');
+    indicator?.remove();
+  },
+
+  generateResponse(query) {
+    const q = query.toLowerCase();
+
+    // Look inside window.GYANOLOGY_DATA if present
+    const articles = (window.GYANOLOGY_DATA && window.GYANOLOGY_DATA.articles) || [];
+
+    // Find best match in title or tags
+    const matched = articles.find(a => 
+      q.includes(a.title.toLowerCase()) || 
+      a.title.toLowerCase().split(' ').some(word => word.length > 3 && q.includes(word)) ||
+      (a.tags && a.tags.some(t => q.includes(t.toLowerCase())))
+    );
+
+    if (matched) {
+      return `
+        <strong>${matched.title}</strong> (${matched.category.toUpperCase()})
+        <br><br>
+        ${matched.excerpt}
+        <br><br>
+        📖 <a href="article.html?slug=${matched.slug}" style="color: var(--accent-indigo); font-weight:700;">Read full article here</a>
+      `;
+    }
+
+    if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
+      return "Hello! Main aapka AI study partner hoon. Aap mujhse kisi bhi educational topic ya revision notes ke baare mein pooch sakte hain. Try typing: <strong>Photosynthesis</strong> ya <strong>Newton</strong>.";
+    }
+
+    if (q.includes('help') || q.includes('what can you do') || q.includes('kaise')) {
+      return "Main aapko Gyanology ke kisi bhi subject par notes read karwa sakta hoon aur quizzes ke sahi answer bata sakta hoon. Aap kisi bhi study topic ka naam search box mein likhein!";
+    }
+
+    return "Acha sawaal hai! Mujhe exact answer mere database mein nahi mila, lekin aap is topic ko website ke search bar mein search kar sakte hain. Aap ye topics seekh sakte hain: <strong>Photosynthesis</strong>, <strong>Newton's Laws</strong>, ya <strong>Fundamental Rights</strong>.";
+  }
+};
