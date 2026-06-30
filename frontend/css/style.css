@@ -1462,7 +1462,28 @@ html, body {
 
 /* Adjust general search input spacing for voice search button */
 .search-wrapper .search-input {
-  padding-right: 124px !important;
+  padding-right: 60px !important;
+}
+/* Hero search wrapper specific inputs with submit button */
+.hero-search-form .search-input {
+  padding-right: 145px !important;
+}
+#hero-voice-btn {
+  right: 96px !important;
+}
+@media (max-width: 480px) {
+  .hero-search-form .search-input {
+    padding-right: 125px !important;
+  }
+  #hero-voice-btn {
+    right: 82px !important;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  .hero-search-form .btn-primary {
+    padding: 0 12px !important;
+  }
 }
 
 /* 8. App Download Banner - Ultra Premium $100k Design */
