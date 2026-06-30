@@ -701,13 +701,26 @@ const ArticleDetail = {
   initReadingProgress() {
     const bar = document.getElementById('reading-progress');
     if (!bar) return;
+    let completed = false;
     window.addEventListener('scroll', () => {
       const content = document.getElementById('article-content');
       if (!content) return;
       const rect = content.getBoundingClientRect();
       const scrolled = Math.max(0, -rect.top);
       const total = content.offsetHeight - window.innerHeight;
-      bar.style.width = Math.min(100, total > 0 ? (scrolled / total) * 100 : 100) + '%';
+      const pct = Math.min(100, total > 0 ? (scrolled / total) * 100 : 100);
+      bar.style.width = pct + '%';
+
+      if (pct > 90 && !completed) {
+        completed = true;
+        if (typeof DashboardManager !== 'undefined') {
+          const params = new URLSearchParams(window.location.search);
+          const slug = params.get('slug');
+          if (slug) {
+            DashboardManager.markArticleRead(slug);
+          }
+        }
+      }
     });
   },
 
@@ -1476,6 +1489,10 @@ const QuizManager = {
     if (oIndex === correctIndex) {
       this.score++;
       showToast('🎉 Correct answer!', 'success');
+      // Track quiz completion in dashboard
+      if (typeof DashboardManager !== 'undefined') {
+        DashboardManager.markQuizDone();
+      }
     } else {
       btn.classList.add('incorrect');
       showToast('❌ Wrong answer. Try another question!', 'error');
@@ -1646,13 +1663,290 @@ document.addEventListener('DOMContentLoaded', () => {
     BookmarkPageManager.init();
     ReactionManager.init();
     SocialShareManager.init();
+    FlashcardManager.init();
   }
   if (page === 'contact') ContactManager.init();
   if (page === 'admin') AdminManager.init();
 
+  if (page === 'home') {
+    DashboardManager.init();
+    GoalPlannerManager.init();
+  }
+
   NewsletterManager.init();
   GyanBotManager.init();
 });
+
+// ===== LEARNER DASHBOARD MANAGER =====
+const DashboardManager = {
+  storageKey: 'gyan-progress',
+
+  init() {
+    this.data = this.load();
+    this.updateStreak();
+    this.render();
+  },
+
+  load() {
+    try {
+      return JSON.parse(localStorage.getItem(this.storageKey)) || this.defaultData();
+    } catch { return this.defaultData(); }
+  },
+
+  defaultData() {
+    return {
+      articlesRead: [],
+      quizzesDone: 0,
+      streak: 1,
+      lastVisit: new Date().toDateString(),
+      xp: 0,
+      badges: []
+    };
+  },
+
+  save() {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.data));
+  },
+
+  updateStreak() {
+    const today = new Date().toDateString();
+    const last = this.data.lastVisit;
+    if (last !== today) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      if (last === yesterday.toDateString()) {
+        this.data.streak = (this.data.streak || 0) + 1;
+      } else if (last !== today) {
+        this.data.streak = 1;
+      }
+      this.data.lastVisit = today;
+      this.save();
+    }
+  },
+
+  markArticleRead(slug) {
+    if (!this.data.articlesRead.includes(slug)) {
+      this.data.articlesRead.push(slug);
+      this.data.xp = (this.data.xp || 0) + 20;
+      this.checkBadges();
+      this.save();
+      // Update goal planner
+      if (typeof GoalPlannerManager !== 'undefined') GoalPlannerManager.markRead();
+    }
+  },
+
+  markQuizDone() {
+    this.data.quizzesDone = (this.data.quizzesDone || 0) + 1;
+    this.data.xp = (this.data.xp || 0) + 30;
+    this.checkBadges();
+    this.save();
+  },
+
+  checkBadges() {
+    const badges = this.data.badges || [];
+    const read = this.data.articlesRead.length;
+    const quizzes = this.data.quizzesDone;
+    const newBadges = [];
+    if (read >= 1 && !badges.includes('first-reader')) newBadges.push({ id: 'first-reader', icon: '📖', label: 'First Reader' });
+    if (read >= 5 && !badges.includes('explorer')) newBadges.push({ id: 'explorer', icon: '🌟', label: 'Explorer' });
+    if (read >= 10 && !badges.includes('scholar')) newBadges.push({ id: 'scholar', icon: '🎓', label: 'Scholar' });
+    if (quizzes >= 1 && !badges.includes('quiz-starter')) newBadges.push({ id: 'quiz-starter', icon: '🎯', label: 'Quiz Starter' });
+    if (quizzes >= 5 && !badges.includes('quiz-master')) newBadges.push({ id: 'quiz-master', icon: '🏆', label: 'Quiz Master' });
+    if (this.data.streak >= 3 && !badges.includes('streak-3')) newBadges.push({ id: 'streak-3', icon: '🔥', label: '3-Day Streak' });
+    if (this.data.streak >= 7 && !badges.includes('streak-7')) newBadges.push({ id: 'streak-7', icon: '⚡', label: '7-Day Legend' });
+    newBadges.forEach(b => {
+      this.data.badges = this.data.badges || [];
+      this.data.badges.push(b.id);
+      showToast(`🏅 Badge unlocked: ${b.icon} ${b.label}!`, 'success');
+    });
+  },
+
+  render() {
+    const d = this.data;
+    const readEl = document.getElementById('stat-read');
+    const quizEl = document.getElementById('stat-quizzes');
+    const streakEl = document.getElementById('stat-streak');
+    const xpEl = document.getElementById('user-xp');
+    const badgesEl = document.getElementById('badges-container');
+
+    if (readEl) readEl.textContent = d.articlesRead.length;
+    if (quizEl) quizEl.textContent = d.quizzesDone;
+    if (streakEl) streakEl.textContent = `🔥 ${d.streak}`;
+    if (xpEl) xpEl.textContent = `${d.xp || 0} XP`;
+
+    if (badgesEl) {
+      const allBadges = [
+        { id: 'first-reader', icon: '📖', label: 'First Reader' },
+        { id: 'explorer', icon: '🌟', label: 'Explorer' },
+        { id: 'scholar', icon: '🎓', label: 'Scholar' },
+        { id: 'quiz-starter', icon: '🎯', label: 'Quiz Starter' },
+        { id: 'quiz-master', icon: '🏆', label: 'Quiz Master' },
+        { id: 'streak-3', icon: '🔥', label: '3-Day Streak' },
+        { id: 'streak-7', icon: '⚡', label: '7-Day Legend' }
+      ];
+      const earned = d.badges || [];
+      badgesEl.innerHTML = allBadges
+        .filter(b => earned.includes(b.id))
+        .map(b => `<span class="badge-chip earned">${b.icon} ${b.label}</span>`)
+        .join('') ||
+        `<span class="badge-chip">📚 Read articles to earn badges!</span>`;
+    }
+  }
+};
+window.DashboardManager = DashboardManager;
+
+// ===== GOAL PLANNER MANAGER =====
+const GoalPlannerManager = {
+  storageKey: 'gyan-daily-goals',
+
+  init() {
+    this.loadState();
+    this.render();
+    this.bindEvents();
+  },
+
+  loadState() {
+    const today = new Date().toDateString();
+    const saved = JSON.parse(localStorage.getItem(this.storageKey) || 'null');
+    if (saved && saved.date === today) {
+      this.target = saved.target;
+      this.done = saved.done;
+    } else {
+      this.target = (saved && saved.target) ? saved.target : 3;
+      this.done = 0;
+    }
+    this.date = today;
+  },
+
+  save() {
+    localStorage.setItem(this.storageKey, JSON.stringify({
+      date: this.date,
+      target: this.target,
+      done: this.done
+    }));
+  },
+
+  markRead() {
+    if (this.done < this.target) {
+      this.done++;
+      this.save();
+      this.render();
+      if (this.done >= this.target) {
+        showToast('🎉 Daily Goal Achieved! Amazing work!', 'success');
+        if (typeof DashboardManager !== 'undefined') {
+          DashboardManager.data.xp = (DashboardManager.data.xp || 0) + 50;
+          DashboardManager.save();
+          DashboardManager.render();
+        }
+      }
+    }
+  },
+
+  render() {
+    const pct = this.target > 0 ? Math.min(100, Math.round((this.done / this.target) * 100)) : 0;
+    const bar = document.getElementById('goal-bar');
+    const pctEl = document.getElementById('goal-percent');
+    const targetEl = document.getElementById('goal-target');
+
+    if (bar) bar.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct + '%';
+    if (targetEl) targetEl.textContent = this.target;
+
+    // Render checklist items
+    const checklist = document.getElementById('goal-checklist-container');
+    if (checklist) {
+      checklist.innerHTML = Array.from({ length: this.target }, (_, i) => {
+        const done = i < this.done;
+        return `<div class="goal-checklist-item ${done ? 'checked' : ''}">
+          <span class="goal-check-icon">${done ? '✅' : '⭕'}</span>
+          <span>Article ${i + 1}</span>
+        </div>`;
+      }).join('');
+    }
+  },
+
+  bindEvents() {
+    document.getElementById('btn-inc-goal')?.addEventListener('click', () => {
+      this.target = Math.min(10, this.target + 1);
+      this.save();
+      this.render();
+    });
+    document.getElementById('btn-dec-goal')?.addEventListener('click', () => {
+      this.target = Math.max(1, this.target - 1);
+      this.save();
+      this.render();
+    });
+  }
+};
+
+// ===== FLASHCARD MANAGER =====
+const FlashcardManager = {
+  cards: [],
+  currentIndex: 0,
+
+  init() {
+    this.buildCards();
+    if (this.cards.length === 0) {
+      const section = document.getElementById('flashcards-section');
+      if (section) section.style.display = 'none';
+      return;
+    }
+    this.renderCard();
+    this.bindEvents();
+  },
+
+  buildCards() {
+    // Build from article content h2/h3 headings + first paragraph text
+    const content = document.getElementById('article-content');
+    if (!content) return;
+    const headings = content.querySelectorAll('h2, h3');
+    headings.forEach(h => {
+      const nextEl = h.nextElementSibling;
+      const detail = nextEl && (nextEl.tagName === 'P' || nextEl.tagName === 'UL')
+        ? nextEl.textContent.trim().slice(0, 180) + (nextEl.textContent.length > 180 ? '...' : '')
+        : 'Read the article section for detailed explanation.';
+      if (h.textContent.trim().length > 3) {
+        this.cards.push({ term: h.textContent.trim(), detail });
+      }
+    });
+    this.cards = this.cards.slice(0, 8); // Max 8 cards
+  },
+
+  renderCard() {
+    const mount = document.getElementById('flashcard-mount');
+    const counter = document.getElementById('flashcard-counter');
+    if (!mount) return;
+
+    const c = this.cards[this.currentIndex];
+    mount.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <h4>${c.term}</h4>
+          <span>👆 Tap to reveal</span>
+        </div>
+        <div class="flashcard-back">
+          <p>${c.detail}</p>
+        </div>
+      </div>`;
+
+    mount.classList.remove('flipped');
+    if (counter) counter.textContent = `${this.currentIndex + 1} / ${this.cards.length}`;
+
+    // Click to flip
+    mount.onclick = () => mount.classList.toggle('flipped');
+  },
+
+  bindEvents() {
+    document.getElementById('btn-prev-card')?.addEventListener('click', () => {
+      this.currentIndex = (this.currentIndex - 1 + this.cards.length) % this.cards.length;
+      this.renderCard();
+    });
+    document.getElementById('btn-next-card')?.addEventListener('click', () => {
+      this.currentIndex = (this.currentIndex + 1) % this.cards.length;
+      this.renderCard();
+    });
+  }
+};
 
 // ===== GYANBOT AI CHATBOT =====
 const GyanBotManager = {

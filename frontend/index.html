@@ -266,6 +266,61 @@
     </div>
   </section>
 
+  <!-- ===== LEARNER DASHBOARD & DAILY GOALS ===== -->
+  <section class="section" id="learner-dashboard" style="padding-bottom:0">
+    <div class="container">
+      <div class="dashboard-grid">
+        <!-- Progress Card -->
+        <div class="dash-card progress-card">
+          <div class="dash-card-header">
+            <h3>🏆 Learner Dashboard</h3>
+            <span class="xp-badge" id="user-xp">0 XP</span>
+          </div>
+          <div class="progress-stats">
+            <div class="stat-item">
+              <span class="stat-num" id="stat-read">0</span>
+              <span class="stat-label">Articles Read</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" id="stat-quizzes">0</span>
+              <span class="stat-label">Quizzes Done</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" id="stat-streak">🔥 1</span>
+              <span class="stat-label">Day Streak</span>
+            </div>
+          </div>
+          <div class="badges-row" id="badges-container">
+            <!-- Badges loaded by JS -->
+          </div>
+        </div>
+
+        <!-- Daily Goal Tracker Card -->
+        <div class="dash-card goal-card">
+          <div class="dash-card-header">
+            <h3>🗓️ Daily Goal Tracker</h3>
+            <span class="goal-progress-percent" id="goal-percent">0%</span>
+          </div>
+          <p class="goal-desc">Keep your learning consistent by hitting your targets.</p>
+          <div class="goal-tracker-control">
+            <div class="goal-input-group">
+              <button class="goal-btn" id="btn-dec-goal">-</button>
+              <span class="goal-target-num" id="goal-target">3</span>
+              <button class="goal-btn" id="btn-inc-goal">+</button>
+            </div>
+            <span class="goal-status-text">Articles goal today</span>
+          </div>
+          <div class="goal-progress-bar-container">
+            <div class="goal-progress-bar" id="goal-bar" style="width: 0%"></div>
+          </div>
+          <div class="goal-checklist" id="goal-checklist-container">
+            <!-- Checklist items -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== FEATURED ARTICLES ===== -->
   <section class="section" id="featured" style="padding-top:0">
     <div class="container">
