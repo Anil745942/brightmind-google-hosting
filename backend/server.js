@@ -23,7 +23,9 @@ const mimeTypes = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
-  '.ico': 'image/x-icon'
+  '.ico': 'image/x-icon',
+  '.apk': 'application/vnd.android.package-archive',
+  '.zip': 'application/zip'
 };
 
 const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
