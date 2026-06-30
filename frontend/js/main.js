@@ -1227,6 +1227,15 @@ const AutoSuggestManager = {
       });
     });
 
+    // Close suggestion on click outside
+    document.addEventListener('click', (e) => {
+      if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('show');
+      }
+    });
+  }
+};
+
 // ===== VOICE SEARCH MANAGER =====
 const VoiceSearchManager = {
   init() {
